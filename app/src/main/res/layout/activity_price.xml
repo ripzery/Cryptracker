@@ -6,57 +6,9 @@
     android:orientation="vertical"
     tools:context="com.ripzery.cryptracker.pages.PriceActivity">
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/black">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="\@cryptowat.ch"
-            android:layout_gravity="right"
-            android:textColor="@android:color/white"
-            android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/tvCryptoWatch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="..."
-            android:textColor="@android:color/white"
-            android:textSize="96sp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#2196F3">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="\@bx.in.th"
-            android:textColor="@android:color/white"
-            android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/tvBx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="..."
-            android:textColor="@android:color/white"
-            android:textSize="96sp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

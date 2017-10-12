@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.SpringHelper
+import com.ripzery.cryptracker.network.DataSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_price.*
 
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_price.*
 class PriceFragment : Fragment() {
 
     /** Variable zone **/
-    lateinit var param1: String
+    private lateinit var mCryptocurrency: String
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
 
@@ -28,12 +29,12 @@ class PriceFragment : Fragment() {
     companion object {
         val ARG_1 = "ARG_1"
 
-        fun newInstance(param1: String): PriceFragment {
-            val bundle: Bundle = Bundle()
-            bundle.putString(ARG_1, param1)
-            val templateFragment: PriceFragment = PriceFragment()
-            templateFragment.arguments = bundle
-            return templateFragment
+        fun newInstance(cryptocurrency: String): PriceFragment {
+            return PriceFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_1, cryptocurrency)
+                }
+            }
         }
 
     }
@@ -44,7 +45,7 @@ class PriceFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             /* if newly created */
-            param1 = arguments.getString(ARG_1)
+            mCryptocurrency = arguments.getString(ARG_1)
         }
     }
 
@@ -59,9 +60,33 @@ class PriceFragment : Fragment() {
         initInstance()
     }
 
+    override fun onStart() {
+        super.onStart()
+        pollingPrice()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mDisposableList.clear()
+    }
+
     /** Method zone **/
 
     private fun initInstance() {
+        Log.d("PriceFragment", mCryptocurrency)
+    }
 
+    private fun pollingPrice() {
+        val d = DataSource.getOMGPriceForInterval(5, mHandleAPIError) { cryptoWatch, bx ->
+            tvBx.scaleX = 0.8f
+            tvBx.scaleY = 0.8f
+            tvCryptoWatch.translationY = -100f
+
+            tvCryptoWatch.text = cryptoWatch
+            tvBx.text = bx
+
+            mSpringHelper.start()
+        }
+        mDisposableList.add(d)
     }
 }

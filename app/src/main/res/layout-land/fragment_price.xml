@@ -33,6 +33,7 @@
         <TextView
             android:id="@+id/tvSourceBottom"
             style="@style/text_source_price"
+            android:layout_gravity="bottom"
             android:text="@string/price_bx" />
 
         <TextView

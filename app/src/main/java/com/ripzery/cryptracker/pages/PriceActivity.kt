@@ -26,5 +26,8 @@ class PriceActivity : AppCompatActivity() {
     class PricePagerAdapter(private val cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int) = PriceFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
+        override fun getPageTitle(position: Int): CharSequence {
+            return cryptocurrencyList[position]
+        }
     }
 }

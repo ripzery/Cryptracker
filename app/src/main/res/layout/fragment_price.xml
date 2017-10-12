@@ -14,13 +14,9 @@
 
         <TextView
             android:id="@+id/tvSourceTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="\@coinmarketcap.com"
+            style="@style/text_source_price"
             android:layout_gravity="right"
-            android:textColor="@android:color/white"
-            android:textStyle="italic" />
+            android:text="@string/price_coinmarketcap" />
 
         <TextView
             android:id="@+id/tvCoinMarketCap"
@@ -32,16 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#2196F3">
+        android:background="@color/colorBxBackground">
 
         <TextView
             android:id="@+id/tvSourceBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="\@bx.in.th"
-            android:textColor="@android:color/white"
-            android:textStyle="italic" />
+            style="@style/text_source_price"
+            android:text="@string/price_bx" />
 
         <TextView
             android:id="@+id/tvBx"

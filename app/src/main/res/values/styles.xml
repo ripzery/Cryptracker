@@ -25,4 +25,12 @@
         <item name="android:text">@string/price_loading</item>
     </style>
 
+    <style name="text_source_price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
 </resources>

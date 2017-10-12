@@ -26,9 +26,9 @@ class SpringHelper<out V1 : View, out V2 : View>(v1: V1, v2: V2) {
     }
 
     fun start(){
-        mAnimSpringPriceTop.start()
+//        mAnimSpringPriceTop.start()
         mAnimSpringBottom.start()
-//        mAnimSpringPriceTopScaleX.start()
-//        mAnimSpringPriceTopScaleY.start()
+        mAnimSpringPriceTopScaleX.start()
+        mAnimSpringPriceTopScaleY.start()
     }
 }

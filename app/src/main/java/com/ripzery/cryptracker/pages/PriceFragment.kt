@@ -58,7 +58,15 @@ class PriceFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /* Restore state */
+        savedInstanceState?.let { mCryptocurrency = savedInstanceState.getString("cryptocurrency") }
         initInstance()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("cryptocurrency", mCryptocurrency)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onStart() {

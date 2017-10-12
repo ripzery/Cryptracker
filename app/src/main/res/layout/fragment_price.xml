@@ -13,16 +13,17 @@
         android:background="@android:color/black">
 
         <TextView
+            android:id="@+id/tvSourceTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="\@cryptowat.ch"
+            android:text="\@coinmarketcap.com"
             android:layout_gravity="right"
             android:textColor="@android:color/white"
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/tvCryptoWatch"
+            android:id="@+id/tvCoinMarketCap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,6 +41,7 @@
         android:background="#2196F3">
 
         <TextView
+            android:id="@+id/tvSourceBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_price.*
 
 class PriceActivity : AppCompatActivity() {
 
-    private val mCryptocurrencyList: List<String> = listOf("omg", "evx")
+    private val mCryptocurrencyList: List<String> = listOf("omisego", "everex")
     private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

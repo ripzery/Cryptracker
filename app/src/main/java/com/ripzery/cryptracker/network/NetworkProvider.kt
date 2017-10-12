@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object NetworkProvider {
     private val BASE_URL_BX = "https://bx.in.th/api/"
-    private val BASE_URL_CRYPTOWATCH = "https://api.cryptowat.ch/markets/bitfinex/omgusd/"
+    private val BASE_URL_COIN_MARKET_CAP = "https://api.coinmarketcap.com/v1/ticker/"
     val apiBx: BxApiService by lazy {
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -17,11 +17,11 @@ object NetworkProvider {
                 .baseUrl(BASE_URL_BX)
                 .build().create(BxApiService::class.java)
     }
-    val apiCryptoWatch: CryptoWatchApiService by lazy {
+    val apiCoinMarketCap: CoinMarketCapApiService by lazy {
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL_CRYPTOWATCH)
-                .build().create(CryptoWatchApiService::class.java)
+                .baseUrl(BASE_URL_COIN_MARKET_CAP)
+                .build().create(CoinMarketCapApiService::class.java)
     }
 }

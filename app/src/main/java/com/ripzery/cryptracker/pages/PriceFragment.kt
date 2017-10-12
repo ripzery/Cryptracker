@@ -1,5 +1,6 @@
 package com.ripzery.cryptracker.pages
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -23,7 +24,7 @@ class PriceFragment : Fragment() {
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
 
-    private val mSpringHelper: SpringHelper<View, View> by lazy { SpringHelper(tvBx, tvCryptoWatch) }
+    private val mSpringHelper: SpringHelper<View, View> by lazy { SpringHelper(tvBx, tvCoinMarketCap) }
 
     /** Static method zone **/
     companion object {
@@ -72,17 +73,20 @@ class PriceFragment : Fragment() {
 
     /** Method zone **/
 
+    @SuppressLint("SetTextI18n")
     private fun initInstance() {
         Log.d("PriceFragment", mCryptocurrency)
+        tvSourceTop.text = "$mCryptocurrency${tvSourceTop.text}"
+        tvSourceBottom.text = "$mCryptocurrency${tvSourceBottom.text}"
     }
 
     private fun pollingPrice() {
-        val d = DataSource.getOMGPriceForInterval(5, mHandleAPIError) { cryptoWatch, bx ->
+        val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
             tvBx.scaleX = 0.8f
             tvBx.scaleY = 0.8f
-            tvCryptoWatch.translationY = -100f
+            tvCoinMarketCap.translationY = -100f
 
-            tvCryptoWatch.text = cryptoWatch
+            tvCoinMarketCap.text = coinMarketCap
             tvBx.text = bx
 
             mSpringHelper.start()

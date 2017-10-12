@@ -1,6 +1,6 @@
 package com.ripzery.cryptracker.network
 
-import com.ripzery.cryptracker.data.BxOMG
+import com.ripzery.cryptracker.data.BxPrice
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -9,5 +9,5 @@ import retrofit2.http.GET
  */
 interface BxApiService {
     @GET(".")
-    fun getOMGPrice(): Observable<BxOMG>
+    fun getPriceList(): Observable<BxPrice>
 }

@@ -21,6 +21,7 @@ class PriceActivity : AppCompatActivity() {
 
     private fun initInstance() {
         viewPager.adapter = mPagerAdapter
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     class PricePagerAdapter(private val cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {

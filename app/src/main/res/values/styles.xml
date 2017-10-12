@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="text_price_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">96sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">64sp</item>
+        <item name="autoSizeMaxTextSize">96sp</item>
+        <item name="autoSizeStepGranularity">1sp</item>
+        <item name="android:text">@string/price_loading</item>
+    </style>
+
 </resources>

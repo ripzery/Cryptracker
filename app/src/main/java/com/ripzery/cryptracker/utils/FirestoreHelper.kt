@@ -14,8 +14,7 @@ object FirestoreHelper {
     private val mUsersCollection: CollectionReference by lazy { FirebaseFirestore.getInstance().collection(COLLECTION_USERS) }
 
     @SuppressLint("HardwareIds")
-    fun addLastSeenOmiseGoPrice(cmcPrice: Double, bxPrice: Double) {
-        val deviceId = Settings.Secure.getString(Contextor.context.contentResolver, Settings.Secure.ANDROID_ID)
+    fun addLastSeenOmiseGoPrice(deviceId: String, cmcPrice: Double, bxPrice: Double) {
         val omg = hashMapOf(Pair("bx_price", bxPrice), Pair("cmcPrice", cmcPrice))
         val evx = hashMapOf(Pair("bx_price", 45), Pair("cmcPrice", 1.33))
         val documentPayload: Map<String, Any> by lazy {

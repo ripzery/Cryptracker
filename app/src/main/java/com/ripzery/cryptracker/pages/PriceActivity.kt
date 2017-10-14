@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import com.ripzery.cryptracker.R
+import com.ripzery.cryptracker.network.DataSource
+import com.ripzery.cryptracker.services.FirestoreService
 import kotlinx.android.synthetic.main.activity_price.*
 
 class PriceActivity : AppCompatActivity() {
@@ -22,6 +24,11 @@ class PriceActivity : AppCompatActivity() {
     private fun initInstance() {
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo)
     }
 
     class PricePagerAdapter(private val cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {

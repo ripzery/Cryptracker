@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * Created by ripzery on 9/7/17.
  */
 object DataSource {
-    lateinit var lastPriceOmiseGo: Pair<Double, Double>
+    var lastPriceOmiseGo: Pair<Double, Double>? = null
     fun getPriceForInterval(cryptoCurrency: String, intervalInSecond: Long, errorCb: (Throwable) -> Unit, successCb: (String, String) -> Unit): Disposable {
         val getAllPrice = Observable.zip(
                 NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency),
@@ -26,7 +26,7 @@ object DataSource {
                         "everex" -> Pair("%.2f".format(coinMarketCap[0].price.toDouble()), "%.2f".format(bx.evx.lastPrice))
                         "omisego" -> {
                             lastPriceOmiseGo = Pair(coinMarketCap[0].price.toDouble(), bx.omg.lastPrice)
-                            Pair("%.2f".format(lastPriceOmiseGo.first), "%.2f".format(lastPriceOmiseGo.second))
+                            Pair("%.2f".format(lastPriceOmiseGo!!.first), "%.2f".format(lastPriceOmiseGo!!.second))
                         }
                         else -> Pair("Unknown", "Unknown")
                     }

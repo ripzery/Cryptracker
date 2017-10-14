@@ -28,7 +28,8 @@ class PriceActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo)
+        if (DataSource.lastPriceOmiseGo != null)
+            FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo!!)
     }
 
     class PricePagerAdapter(private val cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {

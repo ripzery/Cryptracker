@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "602641586193",
+    "firebase_url": "https://cryptracker.firebaseio.com",
+    "project_id": "cryptracker",
+    "storage_bucket": "cryptracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602641586193:android:6e3f4358c7068f79",
+        "android_client_info": {
+          "package_name": "com.ripzery.cryptracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602641586193-l7t3th0vao2kji5133q6hdl1a7j3bcdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTJjuGShakFWgCkBlCQW1ej2JFnLm6eII"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
 package com.ripzery.cryptracker.services
 
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -21,26 +20,33 @@ import com.ripzery.cryptracker.pages.PriceActivity
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d("MyMessagingService", message.from)
-        val notification = message.notification
+//        val notification = message.notification
         val data = message.data
-        sendNotification(notification, data)
+        sendNotification(data)
     }
 
-    fun sendNotification(notification: RemoteMessage.Notification, data: Map<String, String>) {
-        val icon: Bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher_round)
+    private fun sendNotification(data: Map<String, String>) {
+        val icon: Bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
 
         val intent = Intent(this, PriceActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
-        val notificationBuilder = NotificationCompat.Builder(this)
-                .setContentTitle(notification.title)
-                .setContentText(notification.body)
+        val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
+        val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
+
+        val notificationBuilder = NotificationCompat.Builder(this, "Cryptracker")
+                .setContentTitle(data["title"])
+                .setContentText(data["body"])
+                .setStyle(NotificationCompat.BigTextStyle().bigText(data["title"]))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(data["body"]))
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)
                 .setLargeIcon(icon)
-                .setSmallIcon(R.drawable.ic_notification_2)
-                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setColor(colorForSmallIcon)
+                .setSmallIcon(smallIcon)
+                .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0, notificationBuilder.build())

@@ -6,4 +6,8 @@
 
     <!-- Price -->
     <color name="colorBxBackground">#2196F3</color>
+
+    <!-- Notification -->
+    <color name="colorPriceUp">#009688</color>
+    <color name="colorPriceDown">#ff1744</color>
 </resources>

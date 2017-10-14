@@ -1,10 +1,10 @@
 package com.ripzery.cryptracker.utils
 
 import android.annotation.SuppressLint
-import android.provider.Settings
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 /**
  * Created by ripzery on 10/14/17.
@@ -19,13 +19,24 @@ object FirestoreHelper {
         val evx = hashMapOf(Pair("bx_price", 45), Pair("cmcPrice", 1.33))
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(
-                    Pair("deviceId", deviceId),
                     Pair("evx", evx),
                     Pair("omg", omg)
             )
         }
-        mUsersCollection.document(deviceId).set(documentPayload)
+        mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
                 .addOnSuccessListener { Log.d("FirestoreHelper", "Add last seen price $bxPrice to Firestore successfully.") }
+                .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
+    }
+
+    fun updateRefreshedToken(deviceId: String, refreshedToken: String) {
+        val documentPayload: Map<String, Any> by lazy {
+            hashMapOf(
+                    Pair("refreshedToken", refreshedToken)
+            )
+        }
+
+        mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
+                .addOnSuccessListener { Log.d("FirestoreHelper", "Add refreshedToken $refreshedToken to Firestore successfully.") }
                 .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
     }
 }

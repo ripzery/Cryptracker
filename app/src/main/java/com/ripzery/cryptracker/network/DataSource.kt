@@ -37,7 +37,6 @@ object DataSource {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    //                    Log.d(TAG, "CoinMarketCap: ${it.first}, Bx: ${it.second}")
                     successCb(it.first, it.second)
                 }, {
                     Log.e(TAG, "Error on calling an API : ")

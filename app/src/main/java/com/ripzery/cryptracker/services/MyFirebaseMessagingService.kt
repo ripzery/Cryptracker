@@ -49,6 +49,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, notificationBuilder.build())
+        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
 }

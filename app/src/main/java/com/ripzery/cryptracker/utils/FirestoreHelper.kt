@@ -15,8 +15,8 @@ object FirestoreHelper {
 
     @SuppressLint("HardwareIds")
     fun addLastSeenOmiseGoPrice(deviceId: String, cmcPrice: Double, bxPrice: Double) {
-        val omg = hashMapOf(Pair("bx_price", bxPrice), Pair("cmcPrice", cmcPrice))
-        val evx = hashMapOf(Pair("bx_price", 45), Pair("cmcPrice", 1.33))
+        val omg = hashMapOf(Pair("bx_price", bxPrice), Pair("cmc_price", cmcPrice))
+        val evx = hashMapOf(Pair("bx_price", 45), Pair("cmc_price", 1.33))
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(
                     Pair("evx", evx),

@@ -33,7 +33,6 @@ class FirestoreService : IntentService("FirestoreService") {
         FirestoreHelper.addLastSeenOmiseGoPrice(deviceId, cmcPrice, bxPrice)
     }
 
-
     companion object {
         private val ACTION_SET_LAST_SEEN_PRICE = "com.ripzery.cryptracker.services.action.SET_LAST_SEEN_PRICE_OMG"
         private val EXTRA_BX_PRICE = "com.ripzery.cryptracker.services.extra.PARAM1"

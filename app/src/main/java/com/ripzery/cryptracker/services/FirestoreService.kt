@@ -38,19 +38,9 @@ class FirestoreService : IntentService("FirestoreService") {
         return pair
     }
 
-    private fun getCurrencyFromAction(action: String): String {
-        return when (action) {
-            CurrencyContants.EVX -> "evx"
-            CurrencyContants.OMG -> "omg"
-            else -> {
-                ""
-            }
-        }
-    }
-
     private fun handleActionSetLastSeenPrice(bxPrice: Double, cmcPrice: Double, action: String) {
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        FirestoreHelper.addLastSeenPrice(deviceId, cmcPrice, bxPrice, getCurrencyFromAction(action))
+        FirestoreHelper.addLastSeenPrice(deviceId, cmcPrice, bxPrice, action)
     }
 
     companion object {

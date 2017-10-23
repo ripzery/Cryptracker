@@ -91,7 +91,6 @@ class PriceFragment : Fragment() {
 
     private fun pollingPrice() {
         val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
-            Log.d(TAG, "Polling is coming!")
             tvBx.scaleX = 0.8f
             tvBx.scaleY = 0.8f
             tvCoinMarketCap.translationY = -100f

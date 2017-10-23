@@ -5,6 +5,9 @@ import android.os.Handler
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.services.FirestoreService
@@ -32,6 +35,21 @@ class PriceActivity : AppCompatActivity() {
         Handler().postDelayed({
             appBar.setExpanded(false, true)
         }, 700)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_price, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            R.id.setting -> {
+                Log.d("Test", "Setting")
+                return true
+            }
+            else -> false
+        }
     }
 
     override fun onStop() {

@@ -29,7 +29,8 @@ object FirestoreHelper {
     fun updateRefreshedToken(deviceId: String, refreshedToken: String) {
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(
-                    Pair("refreshedToken", refreshedToken)
+                    Pair("refreshedToken", refreshedToken),
+                    Pair("deviceName", DeviceInfoHelper.getDeviceName())
             )
         }
 

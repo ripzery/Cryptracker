@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.pages.PriceActivity
+import com.ripzery.cryptracker.utils.CurrencyContants
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 
 /**
@@ -58,8 +59,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun getPriceCurrency(currency: String?): String {
         if (currency == null) return ""
         val key = when (currency) {
-            "omg" -> SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_OMG
-            "evx" -> SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_EVX
+            "omg" -> CurrencyContants.OMG
+            "evx" -> CurrencyContants.EVX
             else -> ""
         }
         return "%.2f".format(SharePreferenceHelper.readDouble(key))

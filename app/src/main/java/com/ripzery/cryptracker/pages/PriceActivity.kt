@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.services.FirestoreService
+import com.ripzery.cryptracker.utils.CurrencyContants
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import kotlinx.android.synthetic.main.activity_price.*
 
@@ -32,8 +33,8 @@ class PriceActivity : AppCompatActivity() {
         if (DataSource.lastPriceOmiseGo != null) {
             FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo!!)
             FirestoreService.startActionSetLastSeenPriceEVX(this, DataSource.lastPriceEvx!!)
-            SharePreferenceHelper.writeDouble(SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_OMG, DataSource.lastPriceOmiseGo?.second)
-            SharePreferenceHelper.writeDouble(SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_EVX, DataSource.lastPriceEvx?.second)
+            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo?.second)
+            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx?.second)
         }
     }
 

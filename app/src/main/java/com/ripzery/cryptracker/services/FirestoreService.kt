@@ -4,7 +4,6 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import com.ripzery.cryptracker.utils.Contextor
 import com.ripzery.cryptracker.utils.FirestoreHelper
 
 /**
@@ -19,31 +18,62 @@ class FirestoreService : IntentService("FirestoreService") {
 
     override fun onHandleIntent(intent: Intent?) {
         if (intent != null) {
-            val action = intent.action
-            if (ACTION_SET_LAST_SEEN_PRICE == action) {
-                val bxPrice = intent.getDoubleExtra(EXTRA_BX_PRICE, 0.toDouble())
-                val cmcPrice = intent.getDoubleExtra(EXTRA_CMC_PRICE, 0.toDouble())
-                handleActionSetLastSeenPrice(bxPrice, cmcPrice)
+            val pricePair = getPriceCurrencyPair(intent)
+            handleActionSetLastSeenPrice(pricePair.first, pricePair.second, intent.action)
+        }
+    }
+
+    private fun getPriceCurrencyPair(intent: Intent): Pair<Double, Double> {
+        val pair: Pair<Double, Double> =
+                when (intent.action) {
+                    ACTION_SET_LAST_SEEN_PRICE_OMG -> {
+                        Pair(intent.getDoubleExtra(EXTRA_OMG_BX_PRICE, 0.toDouble()), intent.getDoubleExtra(EXTRA_OMG_CMC_PRICE, 0.toDouble()))
+                    }
+                    ACTION_SET_LAST_SEEN_PRICE_EVX -> {
+                        Pair(intent.getDoubleExtra(EXTRA_EVX_BX_PRICE, 0.toDouble()), intent.getDoubleExtra(EXTRA_EVX_CMC_PRICE, 0.toDouble()))
+                    }
+                    else -> Pair(0.toDouble(), 0.toDouble())
+                }
+        return pair
+    }
+
+    private fun getCurrencyFromAction(action: String): String {
+        return when (action) {
+            ACTION_SET_LAST_SEEN_PRICE_EVX -> "evx"
+            ACTION_SET_LAST_SEEN_PRICE_OMG -> "omg"
+            else -> {
+                ""
             }
         }
     }
 
-    private fun handleActionSetLastSeenPrice(bxPrice: Double, cmcPrice: Double) {
+    private fun handleActionSetLastSeenPrice(bxPrice: Double, cmcPrice: Double, action: String) {
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        FirestoreHelper.addLastSeenOmiseGoPrice(deviceId, cmcPrice, bxPrice)
+        FirestoreHelper.addLastSeenPrice(deviceId, cmcPrice, bxPrice, getCurrencyFromAction(action))
     }
 
     companion object {
-        private val ACTION_SET_LAST_SEEN_PRICE = "com.ripzery.cryptracker.services.action.SET_LAST_SEEN_PRICE_OMG"
-        private val EXTRA_BX_PRICE = "com.ripzery.cryptracker.services.extra.PARAM1"
-        private val EXTRA_CMC_PRICE = "com.ripzery.cryptracker.services.extra.PARAM2"
+        private val ACTION_SET_LAST_SEEN_PRICE_OMG = "com.ripzery.cryptracker.services.action.SET_LAST_SEEN_PRICE_OMG"
+        private val ACTION_SET_LAST_SEEN_PRICE_EVX = "com.ripzery.cryptracker.services.action.SET_LAST_SEEN_PRICE_EVX"
+        private val EXTRA_OMG_BX_PRICE = "com.ripzery.cryptracker.services.extra.OMG_BX"
+        private val EXTRA_OMG_CMC_PRICE = "com.ripzery.cryptracker.services.extra.OMG_CMC"
+        private val EXTRA_EVX_BX_PRICE = "com.ripzery.cryptracker.services.extra.EVX_BX"
+        private val EXTRA_EVX_CMC_PRICE = "com.ripzery.cryptracker.services.extra.EVX_CMC"
 
 
         fun startActionSetLastSeenPriceOMG(context: Context, price: Pair<Double, Double>) {
             val intent = Intent(context, FirestoreService::class.java)
-            intent.action = ACTION_SET_LAST_SEEN_PRICE
-            intent.putExtra(EXTRA_CMC_PRICE, price.first)
-            intent.putExtra(EXTRA_BX_PRICE, price.second)
+            intent.action = ACTION_SET_LAST_SEEN_PRICE_OMG
+            intent.putExtra(EXTRA_OMG_CMC_PRICE, price.first)
+            intent.putExtra(EXTRA_OMG_BX_PRICE, price.second)
+            context.startService(intent)
+        }
+
+        fun startActionSetLastSeenPriceEVX(context: Context, price: Pair<Double, Double>) {
+            val intent = Intent(context, FirestoreService::class.java)
+            intent.action = ACTION_SET_LAST_SEEN_PRICE_OMG
+            intent.putExtra(EXTRA_EVX_CMC_PRICE, price.first)
+            intent.putExtra(EXTRA_EVX_BX_PRICE, price.second)
             context.startService(intent)
         }
 

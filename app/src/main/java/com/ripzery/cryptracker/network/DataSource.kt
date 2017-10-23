@@ -17,13 +17,17 @@ import java.util.concurrent.TimeUnit
  */
 object DataSource {
     var lastPriceOmiseGo: Pair<Double, Double>? = null
+    var lastPriceEvx: Pair<Double, Double>? = null
     fun getPriceForInterval(cryptoCurrency: String, intervalInSecond: Long, errorCb: (Throwable) -> Unit, successCb: (String, String) -> Unit): Disposable {
         val getAllPrice = Observable.zip(
                 NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency),
                 NetworkProvider.apiBx.getPriceList(),
                 BiFunction<List<CoinMarketCapResult>, BxPrice, Pair<String, String>> { coinMarketCap, bx ->
                     when (cryptoCurrency) {
-                        "everex" -> Pair("%.2f".format(coinMarketCap[0].price.toDouble()), "%.2f".format(bx.evx.lastPrice))
+                        "everex" -> {
+                            lastPriceEvx = Pair(coinMarketCap[0].price.toDouble(), bx.evx.lastPrice)
+                            Pair("%.2f".format(coinMarketCap[0].price.toDouble()), "%.2f".format(bx.evx.lastPrice))
+                        }
                         "omisego" -> {
                             lastPriceOmiseGo = Pair(coinMarketCap[0].price.toDouble(), bx.omg.lastPrice)
                             Pair("%.2f".format(lastPriceOmiseGo!!.first), "%.2f".format(lastPriceOmiseGo!!.second))

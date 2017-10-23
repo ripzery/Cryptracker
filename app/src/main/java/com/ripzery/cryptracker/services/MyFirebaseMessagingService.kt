@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.pages.PriceActivity
+import com.ripzery.cryptracker.utils.SharePreferenceHelper
 
 /**
  * Created by ripzery on 10/14/17.
@@ -31,14 +32,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val intent = Intent(this, PriceActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
+        val currency = data["currency"]
         val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
         val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
 
+        val currentPrice = if (currency != null) "Your current price is ${getPriceCurrency(currency)}" else ""
+
         val notificationBuilder = NotificationCompat.Builder(this, "Cryptracker")
                 .setContentTitle(data["title"])
-                .setContentText(data["body"])
-                .setStyle(NotificationCompat.BigTextStyle().bigText(data["title"]))
-                .setStyle(NotificationCompat.BigTextStyle().bigText(data["body"]))
+                .setContentText(data["body"]?.replace("<current_price>", "Your current price is ${SharePreferenceHelper.readDouble("last_seen_price")}"))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(data["body"]?.replace("<current_price>", currentPrice)))
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)
@@ -50,5 +53,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
+    }
+
+    private fun getPriceCurrency(currency: String?): String {
+        if (currency == null) return ""
+        val key = when (currency) {
+            "omg" -> SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_OMG
+            "evx" -> SharePreferenceHelper.SHARE_PREF_KEY_LAST_SEEN_PRICE_EVX
+            else -> ""
+        }
+        return "%.2f".format(SharePreferenceHelper.readDouble(key))
     }
 }

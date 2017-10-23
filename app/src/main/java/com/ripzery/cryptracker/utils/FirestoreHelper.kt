@@ -14,13 +14,11 @@ object FirestoreHelper {
     private val mUsersCollection: CollectionReference by lazy { FirebaseFirestore.getInstance().collection(COLLECTION_USERS) }
 
     @SuppressLint("HardwareIds")
-    fun addLastSeenOmiseGoPrice(deviceId: String, cmcPrice: Double, bxPrice: Double) {
-        val omg = hashMapOf(Pair("bx_price", bxPrice), Pair("cmc_price", cmcPrice))
-        val evx = hashMapOf(Pair("bx_price", 45), Pair("cmc_price", 1.33))
+    fun addLastSeenPrice(deviceId: String, cmcPrice: Double, bxPrice: Double, currency: String) {
+        val price = hashMapOf(Pair("bx_price", bxPrice), Pair("cmc_price", cmcPrice))
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(
-                    Pair("evx", evx),
-                    Pair("omg", omg)
+                    Pair(currency, price)
             )
         }
         mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())

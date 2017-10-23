@@ -1,6 +1,7 @@
 package com.ripzery.cryptracker.pages
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
@@ -24,8 +25,13 @@ class PriceActivity : AppCompatActivity() {
     }
 
     private fun initInstance() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
+        Handler().postDelayed({
+            appBar.setExpanded(false, true)
+        }, 700)
     }
 
     override fun onStop() {

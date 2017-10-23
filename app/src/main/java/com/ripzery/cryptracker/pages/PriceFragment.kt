@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.SpringHelper
+import com.ripzery.cryptracker.extensions.TAG
 import com.ripzery.cryptracker.network.DataSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_price.*
@@ -24,7 +25,7 @@ class PriceFragment : Fragment() {
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
 
-    private val mSpringHelper: SpringHelper<View, View> by lazy { SpringHelper(tvBx, tvCoinMarketCap) }
+    private lateinit var mSpringHelper: SpringHelper<View, View>
 
     /** Static method zone **/
     companion object {
@@ -71,6 +72,7 @@ class PriceFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        mSpringHelper = SpringHelper(tvBx, tvCoinMarketCap)
         pollingPrice()
     }
 
@@ -83,13 +85,13 @@ class PriceFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initInstance() {
-        Log.d("PriceFragment", mCryptocurrency)
         tvSourceTop.text = "$mCryptocurrency${tvSourceTop.text}"
         tvSourceBottom.text = "$mCryptocurrency${tvSourceBottom.text}"
     }
 
     private fun pollingPrice() {
         val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
+            Log.d(TAG, "Polling is coming!")
             tvBx.scaleX = 0.8f
             tvBx.scaleY = 0.8f
             tvCoinMarketCap.translationY = -100f

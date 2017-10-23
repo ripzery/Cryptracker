@@ -4,7 +4,7 @@ import android.util.Log
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
 import com.ripzery.cryptracker.extensions.TAG
-import com.ripzery.cryptracker.utils.FirestoreHelper
+import com.ripzery.cryptracker.extensions.to2Precision
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,14 +23,21 @@ object DataSource {
                 NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency),
                 NetworkProvider.apiBx.getPriceList(),
                 BiFunction<List<CoinMarketCapResult>, BxPrice, Pair<String, String>> { coinMarketCap, bx ->
+                    val cmcPrice = coinMarketCap[0].price.toDouble()
                     when (cryptoCurrency) {
                         "everex" -> {
-                            lastPriceEvx = Pair(coinMarketCap[0].price.toDouble(), bx.evx.lastPrice)
-                            Pair("%.2f".format(coinMarketCap[0].price.toDouble()), "%.2f".format(bx.evx.lastPrice))
+                            lastPriceEvx = Pair(cmcPrice, bx.evx.lastPrice)
+                            Pair(cmcPrice.to2Precision(), bx.evx.lastPrice.to2Precision())
                         }
                         "omisego" -> {
-                            lastPriceOmiseGo = Pair(coinMarketCap[0].price.toDouble(), bx.omg.lastPrice)
-                            Pair("%.2f".format(lastPriceOmiseGo!!.first), "%.2f".format(lastPriceOmiseGo!!.second))
+                            lastPriceOmiseGo = Pair(cmcPrice, bx.omg.lastPrice)
+                            Pair(cmcPrice.to2Precision(), lastPriceOmiseGo!!.second.to2Precision())
+                        }
+                        "ethereum" -> {
+                            Pair(cmcPrice.to2Precision(), bx.eth.lastPrice.to2Precision())
+                        }
+                        "bitcoin" -> {
+                            Pair(cmcPrice.to2Precision(), bx.btc.lastPrice.to2Precision())
                         }
                         else -> Pair("Unknown", "Unknown")
                     }

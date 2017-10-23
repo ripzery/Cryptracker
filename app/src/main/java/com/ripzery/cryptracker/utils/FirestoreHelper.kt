@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.jaredrummler.android.device.DeviceName
 
 /**
  * Created by ripzery on 10/14/17.
@@ -29,13 +30,25 @@ object FirestoreHelper {
     fun updateRefreshedToken(deviceId: String, refreshedToken: String) {
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(
-                    Pair("refreshedToken", refreshedToken),
-                    Pair("deviceName", DeviceInfoHelper.getDeviceName())
+                    Pair("refreshedToken", refreshedToken)
             )
         }
+
+        updateDeviceName(deviceId)
 
         mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
                 .addOnSuccessListener { Log.d("FirestoreHelper", "Add refreshedToken $refreshedToken to Firestore successfully.") }
                 .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
+    }
+
+    private fun updateDeviceName(deviceId: String) {
+        DeviceName.with(Contextor.context).request({ info, error ->
+            val documentPayload: Map<String, Any> by lazy {
+                hashMapOf(
+                        Pair("deviceName", info.marketName)
+                )
+            }
+            mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
+        })
     }
 }

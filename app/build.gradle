@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation "com.google.firebase:firebase-firestore:$firebase_version"
     implementation "com.google.firebase:firebase-messaging:$firebase_version"
+    implementation 'com.jaredrummler:android-device-names:1.1.5'
 }
 
 apply plugin: 'com.google.gms.google-services'

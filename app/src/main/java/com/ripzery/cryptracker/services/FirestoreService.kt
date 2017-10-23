@@ -71,7 +71,7 @@ class FirestoreService : IntentService("FirestoreService") {
 
         fun startActionSetLastSeenPriceEVX(context: Context, price: Pair<Double, Double>) {
             val intent = Intent(context, FirestoreService::class.java)
-            intent.action = ACTION_SET_LAST_SEEN_PRICE_OMG
+            intent.action = ACTION_SET_LAST_SEEN_PRICE_EVX
             intent.putExtra(EXTRA_EVX_CMC_PRICE, price.first)
             intent.putExtra(EXTRA_EVX_BX_PRICE, price.second)
             context.startService(intent)

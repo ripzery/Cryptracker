@@ -31,7 +31,7 @@ class FirestoreService : IntentService("FirestoreService") {
                         Pair(intent.getDoubleExtra(CurrencyContants.OMG_BX, 0.toDouble()), intent.getDoubleExtra(CurrencyContants.OMG_CMC, 0.toDouble()))
                     }
                     CurrencyContants.EVX -> {
-                        Pair(intent.getDoubleExtra(CurrencyContants.EVX_BX, 0.toDouble()), intent.getDoubleExtra(CurrencyContants.OMG_CMC, 0.toDouble()))
+                        Pair(intent.getDoubleExtra(CurrencyContants.EVX_BX, 0.toDouble()), intent.getDoubleExtra(CurrencyContants.EVX_CMC, 0.toDouble()))
                     }
                     else -> Pair(0.toDouble(), 0.toDouble())
                 }

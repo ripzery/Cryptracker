@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.ripzery.cryptracker.pages.PriceActivity">
+    tools:context="com.ripzery.cryptracker.pages.price.PriceActivity">
 
     <FrameLayout
         android:layout_width="0dp"

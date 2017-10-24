@@ -8,7 +8,11 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
-    <style name="text_price_style">
+    <style name="text_common_style">
+        <!--<item name="android:fontFamily">@font/quicksand</item>-->
+    </style>
+
+    <style name="text_price_style" parent="@style/text_common_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
@@ -25,12 +29,23 @@
         <item name="android:text">@string/price_loading</item>
     </style>
 
-    <style name="text_source_price">
+    <style name="text_source_price" parent="@style/text_common_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="text_tab" parent="TextAppearance.Design.Tab">
+        <!--<item name="android:fontFamily">@font/quicksand</item>-->
+    </style>
+
+    <style name="text_toolbar" parent="@style/text_common_style">
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

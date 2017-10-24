@@ -12,7 +12,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ripzery.cryptracker.R
-import com.ripzery.cryptracker.pages.PriceActivity
+import com.ripzery.cryptracker.pages.price.PriceActivity
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 
 /**

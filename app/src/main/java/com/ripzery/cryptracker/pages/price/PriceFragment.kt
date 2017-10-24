@@ -1,4 +1,4 @@
-package com.ripzery.cryptracker.pages
+package com.ripzery.cryptracker.pages.price
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.SpringHelper
-import com.ripzery.cryptracker.extensions.TAG
 import com.ripzery.cryptracker.network.DataSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_price.*

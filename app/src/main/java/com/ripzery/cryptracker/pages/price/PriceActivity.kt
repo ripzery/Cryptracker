@@ -1,4 +1,4 @@
-package com.ripzery.cryptracker.pages
+package com.ripzery.cryptracker.pages.price
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +14,7 @@ import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.CurrencyContants
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import kotlinx.android.synthetic.main.activity_price.*
+import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class PriceActivity : AppCompatActivity() {
 

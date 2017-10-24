@@ -49,7 +49,6 @@ class PriceFragment : Fragment() {
             mCryptocurrency = arguments.getString(ARG_1)
         }else if(savedInstanceState.getString("cryptocurrency") != arguments.getString(ARG_1)){
             mCryptocurrency = arguments.getString(ARG_1)
-            savedInstanceState.putString("cryptocurrency", arguments.getString(ARG_1))
         }else {
             mCryptocurrency = savedInstanceState.getString("cryptocurrency")
         }

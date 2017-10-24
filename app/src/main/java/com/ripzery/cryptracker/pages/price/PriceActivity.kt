@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -69,8 +70,6 @@ class PriceActivity : AppCompatActivity() {
                     mPagerAdapter.cryptocurrencyList.clear()
                     mPagerAdapter.cryptocurrencyList.addAll(mCryptocurrencyList)
                     mPagerAdapter.notifyDataSetChanged()
-                    viewPager.adapter.notifyDataSetChanged()
-                    Log.d(TAG, "notify changed!")
                 }
             }
         }
@@ -89,7 +88,7 @@ class PriceActivity : AppCompatActivity() {
         }
     }
 
-    class PricePagerAdapter(var cryptocurrencyList: MutableList<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    class PricePagerAdapter(var cryptocurrencyList: MutableList<String>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         override fun getItem(position: Int) = PriceFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]

@@ -2,10 +2,13 @@ package com.ripzery.cryptracker.pages.setting.manage_crypto
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
+import kotlinx.android.synthetic.main.fragment_manage_cryptocurrency.*
 
 /**
  * Created by ripzery on 7/20/16.
@@ -14,19 +17,15 @@ import com.ripzery.cryptracker.R
 class ManageCryptoFragment : Fragment() {
 
     /** Variable zone **/
-    lateinit var param1: String
+    private val tabs = listOf("Active", "Inactive")
 
 
     /** Static method zone **/
     companion object {
-        val ARG_1 = "ARG_1"
 
-        fun newInstance(param1: String): ManageCryptoFragment {
-            val bundle: Bundle = Bundle()
-            bundle.putString(ARG_1, param1)
-            val templateFragment: ManageCryptoFragment = ManageCryptoFragment()
-            templateFragment.arguments = bundle
-            return templateFragment
+        fun newInstance(): ManageCryptoFragment {
+            val manageCryptoFragment = ManageCryptoFragment()
+            return manageCryptoFragment
         }
 
     }
@@ -37,7 +36,6 @@ class ManageCryptoFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             /* if newly created */
-            param1 = arguments.getString(ARG_1)
         }
     }
 
@@ -55,6 +53,15 @@ class ManageCryptoFragment : Fragment() {
     /** Method zone **/
 
     private fun initInstance() {
+        val adapter = ManageCryptoAdapter(tabs, childFragmentManager)
+        viewPager.adapter = adapter
+        tabLayout.setupWithViewPager(viewPager)
+    }
 
+    /* Inner class zone */
+    class ManageCryptoAdapter(val tabList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+        override fun getItem(position: Int): Fragment = if (position == 0) CryptoListFragment.newInstance(true) else CryptoListFragment.newInstance(false)
+        override fun getCount() = tabList.size
+        override fun getPageTitle(position: Int) = tabList[position]
     }
 }

@@ -1,11 +1,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <MultiSelectListPreference
-        android:defaultValue="@array/empty_array"
+        android:defaultValue="@array/cryptocurrency_default_values"
         android:entries="@array/cryptocurrency_entries"
         android:entryValues="@array/cryptocurrency_values"
         android:dialogTitle="@string/manage_crypto_dialog_title"
-        android:key="manage_crypto"
+        android:key="setting_cryptocurrency_list"
         android:summary="Select cryptocurrency to show"
         android:title="Manage Cryptocurrency" />
 

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.ripzery.cryptracker.R
+import com.ripzery.cryptracker.extensions.TAG
 import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
 import com.ripzery.cryptracker.services.FirestoreService
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class PriceActivity : AppCompatActivity() {
 
-    private var mCryptocurrencyList: List<String> = listOf("omisego", "everex", "ethereum", "bitcoin")
+    private var mCryptocurrencyList: MutableList<String> = mutableListOf("omisego", "everex", "ethereum", "bitcoin")
     private lateinit var mPagerAdapter: PricePagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class PriceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toList()
+        mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
 
         mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)
         viewPager.adapter = mPagerAdapter
@@ -61,12 +62,15 @@ class PriceActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 100 -> {
-                    mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toList()
-                    mPagerAdapter.cryptocurrencyList = mCryptocurrencyList
+                    mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
+                    mPagerAdapter.cryptocurrencyList.clear()
+                    mPagerAdapter.cryptocurrencyList.addAll(mCryptocurrencyList)
                     mPagerAdapter.notifyDataSetChanged()
+                    viewPager.adapter.notifyDataSetChanged()
+                    Log.d(TAG, "notify changed!")
                 }
             }
         }
@@ -85,9 +89,10 @@ class PriceActivity : AppCompatActivity() {
         }
     }
 
-    class PricePagerAdapter(var cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    class PricePagerAdapter(var cryptocurrencyList: MutableList<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int) = PriceFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]
+        override fun getItemPosition(`object`: Any?) = POSITION_NONE
     }
 }

@@ -47,6 +47,11 @@ class PriceFragment : Fragment() {
         if (savedInstanceState == null) {
             /* if newly created */
             mCryptocurrency = arguments.getString(ARG_1)
+        }else if(savedInstanceState.getString("cryptocurrency") != arguments.getString(ARG_1)){
+            mCryptocurrency = arguments.getString(ARG_1)
+            savedInstanceState.putString("cryptocurrency", arguments.getString(ARG_1))
+        }else {
+            mCryptocurrency = savedInstanceState.getString("cryptocurrency")
         }
     }
 
@@ -58,9 +63,6 @@ class PriceFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /* Restore state */
-        savedInstanceState?.let { mCryptocurrency = savedInstanceState.getString("cryptocurrency") }
         initInstance()
     }
 

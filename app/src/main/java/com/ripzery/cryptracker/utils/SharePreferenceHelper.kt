@@ -16,4 +16,8 @@ object SharePreferenceHelper {
     fun readDouble(key: String): Double {
         return sharePref.getFloat(key, 0f).toDouble()
     }
+
+    fun readCryptocurrencySetting(): MutableSet<String> {
+        return sharePref.getStringSet("setting_cryptocurrency_list", mutableSetOf("OMG", "EVX", "ETH", "BTC"))
+    }
 }

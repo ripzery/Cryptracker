@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class PriceActivity : AppCompatActivity() {
 
-    private val mCryptocurrencyList: List<String> = listOf("omisego", "everex", "ethereum", "bitcoin")
+    private var mCryptocurrencyList: List<String> = listOf("omisego", "everex", "ethereum", "bitcoin")
     private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +32,9 @@ class PriceActivity : AppCompatActivity() {
     private fun initInstance() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
+
+//        mCryptocurrencyList =
+
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         Handler().postDelayed({

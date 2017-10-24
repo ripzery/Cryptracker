@@ -43,7 +43,6 @@
             android:resource="@color/colorBxBackground" />
 
         <activity android:name=".pages.setting.PreferenceActivity" />
-        <activity android:name=".pages.setting.manage_crypto.ManageCryptoActivity" />
     </application>
 
 </manifest>

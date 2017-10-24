@@ -24,9 +24,8 @@ class PreferenceActivity : AppCompatActivity() {
 
     private fun initInstance() {
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Preference"
+        supportActionBar?.title = "Setting"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, GeneralPreferenceFragment()).commit()
-//        layoutManageCurrency.setOnClickListener { startActivity(Intent(this, ManageCryptoActivity::class.java)) }
     }
 }

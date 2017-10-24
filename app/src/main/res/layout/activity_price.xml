@@ -23,7 +23,7 @@
             android:layout_gravity="top"
             app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabTextAppearance="@style/text_tab"/>
 
 

@@ -1,5 +1,6 @@
 package com.ripzery.cryptracker.pages.price
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -35,7 +36,6 @@ class PriceActivity : AppCompatActivity() {
         supportActionBar?.title = ""
 
         mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toList()
-        Log.d("PriceActivity", mCryptocurrencyList.toString())
 
         mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)
         viewPager.adapter = mPagerAdapter
@@ -53,10 +53,22 @@ class PriceActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item!!.itemId) {
             R.id.setting -> {
-                startActivity(Intent(this, PreferenceActivity::class.java))
+                startActivityForResult(Intent(this, PreferenceActivity::class.java), 100)
                 return true
             }
             else -> false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                100 -> {
+                    mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toList()
+                    mPagerAdapter.cryptocurrencyList = mCryptocurrencyList
+                    mPagerAdapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
@@ -73,7 +85,7 @@ class PriceActivity : AppCompatActivity() {
         }
     }
 
-    class PricePagerAdapter(private val cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    class PricePagerAdapter(var cryptocurrencyList: List<String>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int) = PriceFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]

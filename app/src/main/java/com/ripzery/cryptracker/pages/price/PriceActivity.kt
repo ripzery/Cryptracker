@@ -1,5 +1,6 @@
 package com.ripzery.cryptracker.pages.price
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.FragmentManager
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.network.DataSource
+import com.ripzery.cryptracker.pages.setting.PreferenceActivity
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.CurrencyContants
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
@@ -46,7 +48,7 @@ class PriceActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item!!.itemId) {
             R.id.setting -> {
-                Log.d("Test", "Setting")
+                startActivity(Intent(this, PreferenceActivity::class.java))
                 return true
             }
             else -> false

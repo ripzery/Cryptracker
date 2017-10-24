@@ -41,11 +41,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorBxBackground" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".pages.setting.PreferenceActivity"></activity>
+        <activity android:name=".pages.setting.PreferenceActivity" />
+        <activity android:name=".pages.setting.manage_crypto.ManageCryptoActivity"></activity>
     </application>
 
 </manifest>

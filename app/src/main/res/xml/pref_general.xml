@@ -9,5 +9,4 @@
         android:summary="Select cryptocurrency to show"
         android:title="Manage Cryptocurrency" />
 
-
 </PreferenceScreen>

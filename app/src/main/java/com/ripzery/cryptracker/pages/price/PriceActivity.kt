@@ -6,6 +6,7 @@ import android.os.Handler
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.ripzery.cryptracker.R
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class PriceActivity : AppCompatActivity() {
 
     private var mCryptocurrencyList: List<String> = listOf("omisego", "everex", "ethereum", "bitcoin")
-    private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, supportFragmentManager) }
+    private lateinit var mPagerAdapter: PricePagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +34,10 @@ class PriceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-//        mCryptocurrencyList =
+        mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toList()
+        Log.d("PriceActivity", mCryptocurrencyList.toString())
 
+        mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         Handler().postDelayed({
@@ -61,9 +64,12 @@ class PriceActivity : AppCompatActivity() {
         super.onStop()
         if (DataSource.lastPriceOmiseGo != null) {
             FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo!!)
-            FirestoreService.startActionSetLastSeenPriceEVX(this, DataSource.lastPriceEvx!!)
             SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo?.second)
             SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx?.second)
+        }
+
+        if (DataSource.lastPriceEvx != null) {
+            FirestoreService.startActionSetLastSeenPriceEVX(this, DataSource.lastPriceEvx!!)
         }
     }
 

@@ -1,11 +1,10 @@
 package com.ripzery.cryptracker.pages.setting
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ripzery.cryptracker.R
-import com.ripzery.cryptracker.pages.setting.manage_crypto.ManageCryptoActivity
+import com.ripzery.cryptracker.pages.setting.manage_crypto.GeneralPreferenceFragment
 import kotlinx.android.synthetic.main.activity_preference.*
 
 class PreferenceActivity : AppCompatActivity() {
@@ -27,6 +26,7 @@ class PreferenceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Preference"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        layoutManageCurrency.setOnClickListener { startActivity(Intent(this, ManageCryptoActivity::class.java)) }
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, GeneralPreferenceFragment()).commit()
+//        layoutManageCurrency.setOnClickListener { startActivity(Intent(this, ManageCryptoActivity::class.java)) }
     }
 }

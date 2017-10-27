@@ -10,4 +10,7 @@
     <!-- Notification -->
     <color name="colorPriceUp">#009688</color>
     <color name="colorPriceDown">#ff1744</color>
+
+    <!-- Setting -->
+    <color name="colorGreen">#00c853</color>
 </resources>

@@ -1,12 +1,41 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <MultiSelectListPreference
-        android:defaultValue="@array/cryptocurrency_default_values"
-        android:entries="@array/cryptocurrency_entries"
-        android:entryValues="@array/cryptocurrency_values"
-        android:dialogTitle="@string/manage_crypto_dialog_title"
-        android:key="setting_cryptocurrency_list"
-        android:summary="Select cryptocurrency to show"
-        android:title="Manage Cryptocurrency" />
+    <PreferenceCategory
+        android:key="pref_key_cryptocurrency"
+        android:title="@string/setting_pref_category_cryptocurrency">
 
+        <MultiSelectListPreference
+            android:defaultValue="@array/cryptocurrency_default_values"
+            android:dialogTitle="@string/setting_manage_crypto_dialog_title"
+            android:entries="@array/cryptocurrency_entries"
+            android:entryValues="@array/cryptocurrency_values"
+            android:key="setting_cryptocurrency_list"
+            android:summary="@string/setting_select_crypto_summary"
+            android:title="@string/setting_select_crypto_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_customize_currency"
+        android:title="@string/setting_category_manage_currency">
+
+        <ListPreference
+            android:defaultValue="@string/setting_currency_upper_part_default_values"
+            android:dialogTitle="@string/setting_currency_dialog_title"
+            android:entries="@array/setting_currency_entries"
+            android:entryValues="@array/setting_currency_values"
+            android:key="setting_customize_currency_upper_part"
+            android:summary="@string/setting_choose_currency_upper_summary"
+            android:title="@string/setting_choose_currency_upper_title" />
+
+        <ListPreference
+            android:defaultValue="@string/setting_currency_lower_part_default_values"
+            android:dialogTitle="@string/setting_currency_dialog_title"
+            android:entries="@array/setting_currency_entries"
+            android:entryValues="@array/setting_currency_values"
+            android:key="setting_customize_currency_lower_part"
+            android:summary="@string/setting_choose_currency_lower_summary"
+            android:title="@string/setting_choose_currency_lower_title" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

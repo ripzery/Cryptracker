@@ -5,7 +5,21 @@
     <string name="price_coinmarketcap">\@coinmarketcap.com</string>
     <string name="title_activity_settings">Settings</string>
 
-    <string name="manage_crypto_dialog_title">Select currency to show</string>
+    <!-- Setting screen -->
+    <string name="setting_pref_category_cryptocurrency">CRYPTOCURRENCY</string>
+    <string name="setting_category_manage_currency">CURRENCY</string>
+    <string name="setting_select_crypto_summary">Choose each cryptocurrencies you want to see</string>
+    <string name="setting_select_crypto_title">Select cryptocurrency</string>
+    <string name="setting_choose_currency_upper_summary">Config the display currency in the upper part of the price screen</string>
+    <string name="setting_choose_currency_upper_title">Choose currency for top section</string>
+    <string name="setting_choose_currency_lower_summary">Config the display currency in the lower part of the price screen</string>
+    <string name="setting_choose_currency_lower_title">Choose currency for bottom section</string>
+
+    <string name="setting_manage_crypto_dialog_title">Select Cryptocurrencies</string>
+    <string name="setting_currency_dialog_title">Select currency</string>
+    <string name="setting_currency_upper_part_default_values">usd</string>
+    <string name="setting_currency_lower_part_default_values">thb</string>
+
     <string-array name="cryptocurrency_default_values">
         <item>omisego</item>
         <item>everex</item>
@@ -23,5 +37,13 @@
         <item>everex</item>
         <item>ethereum</item>
         <item>bitcoin</item>
+    </string-array>
+    <string-array name="setting_currency_entries">
+        <item>USD</item>
+        <item>THB</item>
+    </string-array>
+    <string-array name="setting_currency_values">
+        <item>usd</item>
+        <item>thb</item>
     </string-array>
 </resources>

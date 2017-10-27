@@ -42,7 +42,8 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorBxBackground" />
 
-        <activity android:name=".pages.setting.PreferenceActivity" />
+        <activity android:name=".pages.setting.PreferenceActivity"
+            android:theme="@style/SettingsTheme" />
     </application>
 
 </manifest>

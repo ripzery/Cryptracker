@@ -7,10 +7,8 @@ import android.content.SharedPreferences
  */
 object SharePreferenceHelper {
     lateinit var sharePref: SharedPreferences
-    fun writeDouble(key: String, price: Double?) {
-        price?.let {
-            sharePref.edit().apply { putFloat(key, price.toFloat()) }.apply()
-        }
+    fun writeDouble(key: String, price: Double) {
+        sharePref.edit().apply { putFloat(key, price.toFloat()) }.apply()
     }
 
     fun readDouble(key: String): Double {

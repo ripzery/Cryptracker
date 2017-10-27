@@ -83,12 +83,12 @@ class PriceActivity : AppCompatActivity() {
         super.onStop()
         if (DataSource.lastPriceOmiseGo != null) {
             FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo?.second)
-            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx?.second)
+            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo!!.second)
         }
 
         if (DataSource.lastPriceEvx != null) {
             FirestoreService.startActionSetLastSeenPriceEVX(this, DataSource.lastPriceEvx!!)
+            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx!!.second)
         }
     }
 

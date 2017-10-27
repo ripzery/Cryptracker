@@ -33,15 +33,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val currency = data["currency"]
+        val price = data["price"]?.toDouble()
         val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
         val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
 
-        val currentPrice = if (currency != null) "Your current price is ${getPriceCurrency(currency)}" else ""
+        val currentPriceText = if (currency != null) "Your current price is ${getPriceCurrency(currency)}" else ""
 
         val notificationBuilder = NotificationCompat.Builder(this, "Cryptracker")
                 .setContentTitle(data["title"])
-                .setContentText(data["body"]?.replace("<current_price>", currentPrice))
-                .setStyle(NotificationCompat.BigTextStyle().bigText(data["body"]?.replace("<current_price>", currentPrice)))
+                .setContentText(data["body"]?.replace("<current_price>", currentPriceText))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(data["body"]?.replace("<current_price>", currentPriceText)))
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)
@@ -53,9 +54,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
+
+        // Update price in share preference
+        writePriceCurrency(currency, price)
     }
 
     private fun getPriceCurrency(currency: String): String {
         return "%.2f".format(SharePreferenceHelper.readDouble(currency))
+    }
+
+    private fun writePriceCurrency(currency: String?, price: Double?) {
+        if (price != null && currency != null) {
+            SharePreferenceHelper.writeDouble(currency, price)
+        }
     }
 }

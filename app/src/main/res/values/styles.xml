@@ -29,7 +29,7 @@
         <item name="android:textSize">96sp</item>
         <item name="android:textStyle">bold</item>
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">64sp</item>
+        <item name="autoSizeMinTextSize">40sp</item>
         <item name="autoSizeMaxTextSize">96sp</item>
         <item name="autoSizeStepGranularity">1sp</item>
         <item name="android:text">@string/price_loading</item>

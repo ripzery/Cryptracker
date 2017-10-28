@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.SpringHelper
+import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.DataSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_price.*
@@ -105,11 +106,11 @@ class PriceFragment : Fragment() {
             if (mCurrencyTop == "usd") {
                 tvCoinMarketCap.text = coinMarketCap
             } else if (mCurrencyTop == "thb") {
-                tvCoinMarketCap.text = "${coinMarketCap.toFloat() * USD_TO_THB}"
+                tvCoinMarketCap.text = (coinMarketCap.toFloat() * USD_TO_THB).to2Precision()
             }
 
             if (mCurrencyBottom == "usd") {
-                tvBx.text = "${bx.toFloat() * THB_TO_USD}"
+                tvBx.text = (bx.toFloat() * THB_TO_USD).to2Precision()
             } else if (mCurrencyBottom == "thb") {
                 tvBx.text = bx
             }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
@@ -93,7 +94,12 @@ class PriceActivity : AppCompatActivity() {
     }
 
     class PricePagerAdapter(var cryptocurrencyList: MutableList<String>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-        override fun getItem(position: Int) = PriceFragment.newInstance(cryptocurrencyList[position])
+        override fun getItem(position: Int): Fragment {
+            val currencyTop = SharePreferenceHelper.readCurrencyTop()
+            val currencyBottom = SharePreferenceHelper.readCurrencyBottom()
+            return PriceFragment.newInstance(cryptocurrencyList[position], currencyTop, currencyBottom)
+        }
+
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]
         override fun getItemPosition(`object`: Any?) = POSITION_NONE

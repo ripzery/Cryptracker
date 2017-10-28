@@ -18,4 +18,12 @@ object SharePreferenceHelper {
     fun readCryptocurrencySetting(): MutableSet<String> {
         return sharePref.getStringSet("setting_cryptocurrency_list", mutableSetOf("omisego", "everex", "ethereum", "bitcoin"))
     }
+
+    fun readCurrencyTop(): String {
+        return sharePref.getString("setting_customize_currency_upper_part", "usd")
+    }
+
+    fun readCurrencyBottom(): String {
+        return sharePref.getString("setting_customize_currency_lower_part", "thb")
+    }
 }

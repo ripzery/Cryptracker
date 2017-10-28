@@ -23,17 +23,23 @@ class PriceFragment : Fragment() {
     private lateinit var mCryptocurrency: String
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
-
+    private lateinit var mCurrencyTop: String
+    private lateinit var mCurrencyBottom: String
     private lateinit var mSpringHelper: SpringHelper<View, View>
+    private val USD_TO_THB = 33.23
+    private val THB_TO_USD = 0.03
 
     /** Static method zone **/
     companion object {
         val ARG_1 = "ARG_1"
-
-        fun newInstance(cryptocurrency: String): PriceFragment {
+        val ARG_2 = "ARG_2"
+        val ARG_3 = "ARG_3"
+        fun newInstance(cryptocurrency: String, currencyTop: String, currencyBottom: String): PriceFragment {
             return PriceFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_1, cryptocurrency)
+                    putString(ARG_2, currencyTop)
+                    putString(ARG_3, currencyBottom)
                 }
             }
         }
@@ -44,14 +50,13 @@ class PriceFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            /* if newly created */
-            mCryptocurrency = arguments.getString(ARG_1)
-        }else if(savedInstanceState.getString("cryptocurrency") != arguments.getString(ARG_1)){
-            mCryptocurrency = arguments.getString(ARG_1)
-        }else {
-            mCryptocurrency = savedInstanceState.getString("cryptocurrency")
-        }
+        mCryptocurrency = arguments.getString(ARG_1)
+        mCurrencyTop = arguments.getString(ARG_2)
+        mCurrencyBottom = arguments.getString(ARG_3)
+//            mCryptocurrency = savedInstanceState.getString("cryptocurrency")
+//            mCurrencyTop = savedInstanceState.getString("currencyTop")
+//            mCurrencyBottom = savedInstanceState.getString("currencyBottom")
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -67,6 +72,8 @@ class PriceFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("cryptocurrency", mCryptocurrency)
+        outState.putString("currencyTop", mCurrencyTop)
+        outState.putString("currencyBottom", mCurrencyBottom)
         super.onSaveInstanceState(outState)
     }
 
@@ -95,8 +102,17 @@ class PriceFragment : Fragment() {
             tvBx.scaleY = 0.8f
             tvCoinMarketCap.translationY = -100f
 
-            tvCoinMarketCap.text = coinMarketCap
-            tvBx.text = bx
+            if (mCurrencyTop == "usd") {
+                tvCoinMarketCap.text = coinMarketCap
+            } else if (mCurrencyTop == "thb") {
+                tvCoinMarketCap.text = "${coinMarketCap.toFloat() * USD_TO_THB}"
+            }
+
+            if (mCurrencyBottom == "usd") {
+                tvBx.text = "${bx.toFloat() * THB_TO_USD}"
+            } else if (mCurrencyBottom == "thb") {
+                tvBx.text = bx
+            }
 
             mSpringHelper.start()
         }

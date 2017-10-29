@@ -1,4 +1,4 @@
-package com.ripzery.cryptracker.pages.price
+package com.ripzery.cryptracker.pages.price.cryptocurrency
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_price.*
  * Created by ripzery on 7/20/16.
  */
 
-class PriceFragment : Fragment() {
+class CryptocurrencyFragment : Fragment() {
 
     /** Variable zone **/
     private lateinit var mCryptocurrency: String
@@ -24,7 +24,7 @@ class PriceFragment : Fragment() {
     private lateinit var mCurrencyBottom: String
     private lateinit var mSpringHelper: SpringHelper<View, View>
 
-    private val mViewModel by lazy { getViewModel(PriceViewModel::class.java).apply { init(mCryptocurrency, mCurrencyTop, mCurrencyBottom) } }
+    private val mViewModel by lazy { getViewModel(CryptocurrencyViewModel::class.java).apply { init(mCryptocurrency, mCurrencyTop, mCurrencyBottom) } }
 
 
     /** Static method zone **/
@@ -32,8 +32,8 @@ class PriceFragment : Fragment() {
         val ARG_1 = "ARG_1"
         val ARG_2 = "ARG_2"
         val ARG_3 = "ARG_3"
-        fun newInstance(cryptocurrency: String, currencyTop: String, currencyBottom: String): PriceFragment {
-            return PriceFragment().apply {
+        fun newInstance(cryptocurrency: String, currencyTop: String, currencyBottom: String): CryptocurrencyFragment {
+            return CryptocurrencyFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_1, cryptocurrency)
                     putString(ARG_2, currencyTop)

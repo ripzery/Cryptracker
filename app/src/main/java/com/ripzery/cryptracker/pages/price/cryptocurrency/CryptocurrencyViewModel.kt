@@ -1,4 +1,4 @@
-package com.ripzery.cryptracker.pages.price
+package com.ripzery.cryptracker.pages.price.cryptocurrency
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * Created by ripzery on 10/29/17.
  */
-class PriceViewModel(context: Application) : AndroidViewModel(context) {
+class CryptocurrencyViewModel(context: Application) : AndroidViewModel(context) {
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()

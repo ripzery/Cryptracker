@@ -18,8 +18,8 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.ripzery.cryptracker.R
-import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.network.DataSource
+import com.ripzery.cryptracker.pages.price.cryptocurrency.CryptocurrencyFragment
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.CurrencyContants
@@ -138,7 +138,7 @@ class PriceActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             val currencyTop = SharePreferenceHelper.readCurrencyTop()
             val currencyBottom = SharePreferenceHelper.readCurrencyBottom()
-            return PriceFragment.newInstance(cryptocurrencyList[position], currencyTop, currencyBottom)
+            return CryptocurrencyFragment.newInstance(cryptocurrencyList[position], currencyTop, currencyBottom)
         }
 
         override fun getCount(): Int = cryptocurrencyList.size

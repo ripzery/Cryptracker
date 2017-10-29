@@ -11,21 +11,25 @@ import com.ripzery.cryptracker.utils.SharePreferenceHelper
  * Created by ripzery on 10/29/17.
  */
 class PriceViewModel : ViewModel(), LifecycleObserver {
+    private var mCrytoList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
+    private var mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
     private val mCryptoListLiveData: MutableLiveData<MutableList<String>> = MutableLiveData()
     private val mCurrencyLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
     fun getCryptocurrencyList(): MutableLiveData<MutableList<String>> {
-        mCryptoListLiveData.value = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
+        mCryptoListLiveData.value = mCrytoList
         return mCryptoListLiveData
     }
 
     fun getCurrencyLiveData(): MutableLiveData<Pair<String, String>> {
-        mCurrencyLiveData.value = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        mCurrencyLiveData.value = mCurrency
         return mCurrencyLiveData
     }
 
     fun refresh() {
-        mCryptoListLiveData.value = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
-        mCurrencyLiveData.value = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        mCrytoList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
+        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        mCryptoListLiveData.value = mCrytoList
+        mCurrencyLiveData.value = mCurrency
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

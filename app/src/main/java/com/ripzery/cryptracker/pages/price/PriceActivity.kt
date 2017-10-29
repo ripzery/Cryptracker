@@ -1,6 +1,8 @@
 package com.ripzery.cryptracker.pages.price
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -30,7 +32,8 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class PriceActivity : AppCompatActivity() {
 
     private var mCryptocurrencyList: MutableList<String> = mutableListOf("omisego", "everex", "ethereum", "bitcoin")
-    private lateinit var mPagerAdapter: PricePagerAdapter
+    private val mViewModel by lazy { ViewModelProviders.of(this).get(PriceViewModel::class.java) }
+    private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, supportFragmentManager) }
     private val MAX_ITEMS_TAB_LAYOUT_FIXED = 4
     private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
     private var mFirstTime = false
@@ -40,19 +43,27 @@ class PriceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
 
-        mCryptocurrencyList = savedInstanceState?.getStringArrayList(SAVED_STATE_CRYPTO_LIST)
-                ?: SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
         initInstance()
     }
 
-    private fun initInstance() {
+    private val observer = Observer<MutableList<String>> {
+        mCryptocurrencyList = it!!
+        mPagerAdapter.cryptocurrencyList.clear()
+        mPagerAdapter.cryptocurrencyList.addAll(mCryptocurrencyList)
+        mPagerAdapter.notifyDataSetChanged()
+        handleTabLayoutMode(mCryptocurrencyList.size)
+    }
 
+
+    private fun initInstance() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)
+        mViewModel.getCryptocurrencyList().observe(this, observer)
+
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         handleTabLayoutMode(mCryptocurrencyList.size)
+
         Handler().postDelayed({
             appBar.setExpanded(false, true)
         }, 700)
@@ -110,13 +121,7 @@ class PriceActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                100 -> {
-                    mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
-                    mPagerAdapter.cryptocurrencyList.clear()
-                    mPagerAdapter.cryptocurrencyList.addAll(mCryptocurrencyList)
-                    mPagerAdapter.notifyDataSetChanged()
-                    handleTabLayoutMode(mCryptocurrencyList.size)
-                }
+                100 -> mViewModel.refreshCryptocurrencyList()
             }
         }
     }

@@ -35,7 +35,6 @@ class PriceActivity : AppCompatActivity() {
     private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
     private var mFirstTime = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)

@@ -2,7 +2,6 @@ package com.ripzery.cryptracker.pages.price
 
 import android.arch.lifecycle.*
 import android.os.Bundle
-import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.repository.remote.CryptrackerRemoteDataSource
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor

@@ -1,5 +1,6 @@
 package com.ripzery.cryptracker.repository
 
+import android.util.Log
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
 import io.reactivex.Observable
@@ -19,7 +20,12 @@ class CryptrackerRepository(val cryptrackerLocalDataSource: CryptrackerDataSourc
     }
 
     override fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
-        return cryptrackerRemoteDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond)
+        val d = cryptrackerRemoteDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond).subscribe { Log.d("Test", "Update!") }
+        return cryptrackerLocalDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond)
+                .doOnDispose {
+                    Log.d("Test", "Stop Update----")
+                    d.dispose()
+                }
     }
 
     companion object {

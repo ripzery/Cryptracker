@@ -39,6 +39,10 @@ class PriceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
+
+        mViewModel.init(savedInstanceState)
+        mViewModel.getCryptocurrencyList().observe(this, mCryptoListObserver)
+        mViewModel.getCurrencyLiveData().observe(this, mCurrencyObserver)
         initInstance()
     }
 
@@ -62,9 +66,6 @@ class PriceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        mViewModel.getCryptocurrencyList().observe(this, mCryptoListObserver)
-        mViewModel.getCurrencyLiveData().observe(this, mCurrencyObserver)
-
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
 
@@ -73,6 +74,9 @@ class PriceActivity : AppCompatActivity() {
         }, 700)
     }
 
+    /* savedInstanceState is still needed no matter we're already use architecture components :(
+     * In case of the app is killed by the system, the viewmodel is no longer persist anymore.
+     */
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putStringArrayList(SAVED_STATE_CRYPTO_LIST, ArrayList(mCryptocurrencyList))
         super.onSaveInstanceState(outState)

@@ -1,6 +1,8 @@
 package com.ripzery.cryptracker.pages.price
 
 import android.arch.lifecycle.*
+import android.os.Bundle
+import android.util.Log
 import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor
@@ -11,10 +13,18 @@ import com.ripzery.cryptracker.utils.SharePreferenceHelper
  * Created by ripzery on 10/29/17.
  */
 class PriceViewModel : ViewModel(), LifecycleObserver {
-    private var mCrytoList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
-    private var mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+    private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
+    private lateinit var mCrytoList: MutableList<String>
+    private lateinit var mCurrency: Pair<String, String>
     private val mCryptoListLiveData: MutableLiveData<MutableList<String>> = MutableLiveData()
     private val mCurrencyLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
+
+    /* For handle app is killed */
+    fun init(savedInstanceState: Bundle?) {
+        mCrytoList = savedInstanceState?.getStringArrayList(SAVED_STATE_CRYPTO_LIST)?.toMutableList() ?: SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
+        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+    }
+
     fun getCryptocurrencyList(): MutableLiveData<MutableList<String>> {
         mCryptoListLiveData.value = mCrytoList
         return mCryptoListLiveData
@@ -30,6 +40,11 @@ class PriceViewModel : ViewModel(), LifecycleObserver {
         mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
         mCryptoListLiveData.value = mCrytoList
         mCurrencyLiveData.value = mCurrency
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("PriceViewModel", "Cleared!")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

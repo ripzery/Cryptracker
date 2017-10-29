@@ -1,6 +1,7 @@
 package com.ripzery.cryptracker.pages.price
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.SpringHelper
+import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.DataSource
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +31,8 @@ class PriceFragment : Fragment() {
     private lateinit var mSpringHelper: SpringHelper<View, View>
     private val USD_TO_THB = 33.23
     private val THB_TO_USD = 0.03
+    private val mViewModel by lazy { getViewModel(PriceViewModel::class.java) }
+
 
     /** Static method zone **/
     companion object {
@@ -81,12 +85,7 @@ class PriceFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mSpringHelper = SpringHelper(tvBx, tvCoinMarketCap)
-        pollingPrice()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mDisposableList.clear()
+        mViewModel.pollingPrice(mCryptocurrency).observe(this, mObservePriceChanged)
     }
 
     /** Method zone **/
@@ -97,26 +96,48 @@ class PriceFragment : Fragment() {
         tvSourceBottom.text = "$mCryptocurrency${tvSourceBottom.text}"
     }
 
-    private fun pollingPrice() {
-        val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
-            tvBx.scaleX = 0.8f
-            tvBx.scaleY = 0.8f
-            tvCoinMarketCap.translationY = -100f
+    private var mObservePriceChanged: Observer<Pair<String, String>> = Observer {
+        val bx = it!!.second
+        val coinMarketCap = it.first
+        tvBx.scaleX = 0.8f
+        tvBx.scaleY = 0.8f
+        tvCoinMarketCap.translationY = -100f
 
-            if (mCurrencyTop == "usd") {
-                tvCoinMarketCap.text = coinMarketCap
-            } else if (mCurrencyTop == "thb") {
-                tvCoinMarketCap.text = (coinMarketCap.toFloat() * USD_TO_THB).to2Precision()
-            }
-
-            if (mCurrencyBottom == "usd") {
-                tvBx.text = (bx.toFloat() * THB_TO_USD).to2Precision()
-            } else if (mCurrencyBottom == "thb") {
-                tvBx.text = bx
-            }
-
-            mSpringHelper.start()
+        if (mCurrencyTop == "usd") {
+            tvCoinMarketCap.text = coinMarketCap
+        } else if (mCurrencyTop == "thb") {
+            tvCoinMarketCap.text = (coinMarketCap.toFloat() * USD_TO_THB).to2Precision()
         }
-        mDisposableList.add(d)
+
+        if (mCurrencyBottom == "usd") {
+            tvBx.text = (bx.toFloat() * THB_TO_USD).to2Precision()
+        } else if (mCurrencyBottom == "thb") {
+            tvBx.text = bx
+        }
+
+        mSpringHelper.start()
+    }
+
+    private fun pollingPrice() {
+//        val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
+//            tvBx.scaleX = 0.8f
+//            tvBx.scaleY = 0.8f
+//            tvCoinMarketCap.translationY = -100f
+//
+//            if (mCurrencyTop == "usd") {
+//                tvCoinMarketCap.text = coinMarketCap
+//            } else if (mCurrencyTop == "thb") {
+//                tvCoinMarketCap.text = (coinMarketCap.toFloat() * USD_TO_THB).to2Precision()
+//            }
+//
+//            if (mCurrencyBottom == "usd") {
+//                tvBx.text = (bx.toFloat() * THB_TO_USD).to2Precision()
+//            } else if (mCurrencyBottom == "thb") {
+//                tvBx.text = bx
+//            }
+//
+//            mSpringHelper.start()
+//        }
+//        mDisposableList.add(d)
     }
 }

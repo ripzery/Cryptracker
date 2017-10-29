@@ -18,6 +18,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.ripzery.cryptracker.R
+import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.network.DataSource
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
 import com.ripzery.cryptracker.services.FirestoreService
@@ -45,6 +46,7 @@ class PriceActivity : AppCompatActivity() {
     }
 
     private fun initInstance() {
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
         mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)

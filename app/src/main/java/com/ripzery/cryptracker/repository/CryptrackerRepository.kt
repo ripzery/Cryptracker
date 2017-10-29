@@ -18,6 +18,10 @@ class CryptrackerRepository(val cryptrackerLocalDataSource: CryptrackerDataSourc
         return cryptrackerRemoteDataSource.getCmcPrice(currency)
     }
 
+    override fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
+        return cryptrackerRemoteDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond)
+    }
+
     companion object {
         private var INSTANCE: CryptrackerRepository? = null
 

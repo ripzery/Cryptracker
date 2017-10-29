@@ -10,6 +10,6 @@ import com.ripzery.cryptracker.repository.remote.CryptrackerRemoteDataSource
  */
 object Injection {
     fun provideCryptrackerRepository(): CryptrackerRepository {
-        return CryptrackerRepository.getInstance(CryptrackerRemoteDataSource, CryptrackerLocalDataSource)
+        return CryptrackerRepository.getInstance(CryptrackerLocalDataSource, CryptrackerRemoteDataSource)
     }
 }

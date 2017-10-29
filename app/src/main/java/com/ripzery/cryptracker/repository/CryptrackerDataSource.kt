@@ -10,4 +10,5 @@ import io.reactivex.Observable
 interface CryptrackerDataSource {
     fun getBxPrice(): Observable<BxPrice>
     fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>>
+    fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>>
 }

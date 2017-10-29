@@ -42,11 +42,6 @@ class PriceViewModel : ViewModel(), LifecycleObserver {
         mCurrencyLiveData.value = mCurrency
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("PriceViewModel", "Cleared!")
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun updatePriceOnFireStore() {
         if (DataSource.lastPriceOmiseGo != null) {

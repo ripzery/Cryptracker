@@ -17,4 +17,20 @@ class CryptrackerRepository(val cryptrackerLocalDataSource: CryptrackerDataSourc
     override fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>> {
         return cryptrackerRemoteDataSource.getCmcPrice(currency)
     }
+
+    companion object {
+        private var INSTANCE: CryptrackerRepository? = null
+
+        @JvmStatic
+        fun getInstance(cryptrackerLocalDataSource: CryptrackerDataSource,
+                        cryptrackerRemoteDataSource: CryptrackerDataSource) =
+                INSTANCE ?: synchronized(CryptrackerRepository::class.java) {
+                    INSTANCE ?: CryptrackerRepository(cryptrackerLocalDataSource, cryptrackerRemoteDataSource).also { INSTANCE = it }
+                }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
 }

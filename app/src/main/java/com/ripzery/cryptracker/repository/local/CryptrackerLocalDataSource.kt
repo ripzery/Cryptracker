@@ -9,7 +9,7 @@ import io.reactivex.Observable
 /**
  * Created by ripzery on 10/29/17.
  */
-class CryptrackerLocalDataSource : CryptrackerDataSource {
+object CryptrackerLocalDataSource : CryptrackerDataSource {
     override fun getBxPrice(): Observable<BxPrice> {
         return Observable.just(BxPrice(PairedCurrency(1, 255.5, 15.4),
                 PairedCurrency(2, 33.0, 1.0),

@@ -1,19 +1,19 @@
 package com.ripzery.cryptracker.pages.price.cryptocurrency
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.ripzery.cryptracker.extensions.TAG
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.DataSource
+import com.ripzery.cryptracker.repository.CryptrackerRepository
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by ripzery on 10/29/17.
  */
-class CryptocurrencyViewModel : ViewModel() {
+class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepository? = null) : ViewModel() {
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()

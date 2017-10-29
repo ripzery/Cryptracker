@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
-import com.ripzery.cryptracker.SpringHelper
+import com.ripzery.cryptracker.utils.SpringHelper
 import com.ripzery.cryptracker.extensions.getViewModel
 import kotlinx.android.synthetic.main.fragment_price.*
 
@@ -65,6 +65,7 @@ class CryptocurrencyFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mSpringHelper = SpringHelper(tvBx, tvCoinMarketCap)
+
         mViewModel.pollingPrice(mCryptocurrency).observe(this, mObservePriceChanged)
     }
 

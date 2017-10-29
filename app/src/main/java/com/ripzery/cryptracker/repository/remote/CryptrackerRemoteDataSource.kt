@@ -9,7 +9,7 @@ import io.reactivex.Observable
 /**
  * Created by ripzery on 10/29/17.
  */
-class CryptrackerRemoteDataSource : CryptrackerDataSource {
+object CryptrackerRemoteDataSource : CryptrackerDataSource {
     override fun getBxPrice(): Observable<BxPrice> {
         return NetworkProvider.apiBx.getPriceList()
     }

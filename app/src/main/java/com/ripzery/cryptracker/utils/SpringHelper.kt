@@ -1,4 +1,4 @@
-package com.ripzery.cryptracker
+package com.ripzery.cryptracker.utils
 
 import android.support.animation.SpringAnimation
 import android.support.animation.SpringForce

@@ -70,6 +70,8 @@ dependencies {
 
     implementation "android.arch.lifecycle:extensions:$arch_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
+    implementation "android.arch.persistence.room:runtime:$arch_version"
+    kapt "android.arch.persistence.room:compiler:$arch_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

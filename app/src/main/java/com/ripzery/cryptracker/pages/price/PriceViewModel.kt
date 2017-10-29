@@ -3,6 +3,7 @@ package com.ripzery.cryptracker.pages.price
 import android.arch.lifecycle.*
 import android.os.Bundle
 import com.ripzery.cryptracker.network.DataSource
+import com.ripzery.cryptracker.repository.remote.CryptrackerRemoteDataSource
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor
 import com.ripzery.cryptracker.utils.CurrencyContants
@@ -43,14 +44,14 @@ class PriceViewModel : ViewModel(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun updatePriceOnFireStore() {
-        if (DataSource.lastPriceOmiseGo != null) {
-            FirestoreService.startActionSetLastSeenPriceOMG(Contextor.context, DataSource.lastPriceOmiseGo!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo!!.second)
+        if (CryptrackerRemoteDataSource.lastPriceOmiseGo != null) {
+            FirestoreService.startActionSetLastSeenPriceOMG(Contextor.context, CryptrackerRemoteDataSource.lastPriceOmiseGo!!)
+            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, CryptrackerRemoteDataSource.lastPriceOmiseGo!!.second)
         }
 
-        if (DataSource.lastPriceEvx != null) {
-            FirestoreService.startActionSetLastSeenPriceEVX(Contextor.context, DataSource.lastPriceEvx!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx!!.second)
+        if (CryptrackerRemoteDataSource.lastPriceEvx != null) {
+            FirestoreService.startActionSetLastSeenPriceEVX(Contextor.context, CryptrackerRemoteDataSource.lastPriceEvx!!)
+            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, CryptrackerRemoteDataSource.lastPriceEvx!!.second)
         }
     }
 }

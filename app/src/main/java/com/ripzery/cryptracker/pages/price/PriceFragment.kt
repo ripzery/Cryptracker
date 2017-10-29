@@ -117,27 +117,4 @@ class PriceFragment : Fragment() {
 
         mSpringHelper.start()
     }
-
-    private fun pollingPrice() {
-//        val d = DataSource.getPriceForInterval(mCryptocurrency, 5, mHandleAPIError) { coinMarketCap, bx ->
-//            tvBx.scaleX = 0.8f
-//            tvBx.scaleY = 0.8f
-//            tvCoinMarketCap.translationY = -100f
-//
-//            if (mCurrencyTop == "usd") {
-//                tvCoinMarketCap.text = coinMarketCap
-//            } else if (mCurrencyTop == "thb") {
-//                tvCoinMarketCap.text = (coinMarketCap.toFloat() * USD_TO_THB).to2Precision()
-//            }
-//
-//            if (mCurrencyBottom == "usd") {
-//                tvBx.text = (bx.toFloat() * THB_TO_USD).to2Precision()
-//            } else if (mCurrencyBottom == "thb") {
-//                tvBx.text = bx
-//            }
-//
-//            mSpringHelper.start()
-//        }
-//        mDisposableList.add(d)
-    }
 }

@@ -42,7 +42,6 @@ class PriceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
-
         initInstance()
     }
 
@@ -56,13 +55,15 @@ class PriceActivity : AppCompatActivity() {
 
 
     private fun initInstance() {
+        lifecycle.addObserver(mViewModel)
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
+
         mViewModel.getCryptocurrencyList().observe(this, observer)
 
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
-        handleTabLayoutMode(mCryptocurrencyList.size)
 
         Handler().postDelayed({
             appBar.setExpanded(false, true)
@@ -123,19 +124,6 @@ class PriceActivity : AppCompatActivity() {
             when (requestCode) {
                 100 -> mViewModel.refreshCryptocurrencyList()
             }
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (DataSource.lastPriceOmiseGo != null) {
-            FirestoreService.startActionSetLastSeenPriceOMG(this, DataSource.lastPriceOmiseGo!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, DataSource.lastPriceOmiseGo!!.second)
-        }
-
-        if (DataSource.lastPriceEvx != null) {
-            FirestoreService.startActionSetLastSeenPriceEVX(this, DataSource.lastPriceEvx!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, DataSource.lastPriceEvx!!.second)
         }
     }
 

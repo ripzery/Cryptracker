@@ -31,20 +31,22 @@ class PriceActivity : AppCompatActivity() {
     private var mCryptocurrencyList: MutableList<String> = mutableListOf("omisego", "everex", "ethereum", "bitcoin")
     private lateinit var mPagerAdapter: PricePagerAdapter
     private val MAX_ITEMS_TAB_LAYOUT_FIXED = 4
+    private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
     private var mFirstTime = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_price)
 
+        mCryptocurrencyList = savedInstanceState?.getStringArrayList(SAVED_STATE_CRYPTO_LIST)
+                ?: SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
         initInstance()
     }
 
     private fun initInstance() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-
-        mCryptocurrencyList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
         mPagerAdapter = PricePagerAdapter(mCryptocurrencyList, supportFragmentManager)
         viewPager.adapter = mPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
@@ -52,6 +54,11 @@ class PriceActivity : AppCompatActivity() {
         Handler().postDelayed({
             appBar.setExpanded(false, true)
         }, 700)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putStringArrayList(SAVED_STATE_CRYPTO_LIST, ArrayList(mCryptocurrencyList))
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,6 +74,7 @@ class PriceActivity : AppCompatActivity() {
         val rotateAnim = RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         rotateAnim.duration = 500
         rotateAnim.interpolator = FastOutSlowInInterpolator()
+
         appBar.addOnOffsetChangedListener { _, verticalOffset ->
             if (verticalOffset == 0 && mFirstTime) {
                 settingIcon.startAnimation(rotateAnim)

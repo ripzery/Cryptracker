@@ -59,4 +59,7 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
     }
+
+    override fun getCryptoList(): List<String> = listOf()
+    override fun getCurrency(): Pair<String, String> = Pair("usd", "thb")
 }

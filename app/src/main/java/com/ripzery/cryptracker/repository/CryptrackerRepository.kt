@@ -7,8 +7,8 @@ import io.reactivex.Observable
 /**
  * Created by ripzery on 10/29/17.
  */
-class CryptrackerRepository(val cryptrackerLocalDataSource: CryptrackerDataSource,
-                            val cryptrackerRemoteDataSource: CryptrackerDataSource) : CryptrackerDataSource {
+class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerDataSource,
+                            private val cryptrackerRemoteDataSource: CryptrackerDataSource) : CryptrackerDataSource {
 
     override fun getBxPrice(): Observable<BxPrice> {
         return cryptrackerRemoteDataSource.getBxPrice()
@@ -23,6 +23,9 @@ class CryptrackerRepository(val cryptrackerLocalDataSource: CryptrackerDataSourc
         return cryptrackerLocalDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond)
                 .doOnDispose { d.dispose() }
     }
+
+    override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()
+    override fun getCurrency(): Pair<String, String> = cryptrackerRemoteDataSource.getCurrency()
 
     companion object {
         private var INSTANCE: CryptrackerRepository? = null

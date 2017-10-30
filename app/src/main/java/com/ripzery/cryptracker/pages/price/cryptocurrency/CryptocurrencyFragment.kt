@@ -24,7 +24,7 @@ class CryptocurrencyFragment : Fragment() {
     private lateinit var mCurrencyBottom: String
     private lateinit var mSpringHelper: SpringHelper<View, View>
 
-    private val mViewModel by lazy { getViewModel(CryptocurrencyViewModel::class.java).apply { init(mCryptocurrency, mCurrencyTop, mCurrencyBottom) } }
+    private val mViewModel by lazy { getViewModel(CryptocurrencyViewModel::class.java).apply { init(mCryptocurrency) } }
 
 
     /** Static method zone **/

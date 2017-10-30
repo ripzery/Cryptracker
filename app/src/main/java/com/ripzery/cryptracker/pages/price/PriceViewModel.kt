@@ -2,6 +2,7 @@ package com.ripzery.cryptracker.pages.price
 
 import android.arch.lifecycle.*
 import android.os.Bundle
+import com.ripzery.cryptracker.repository.CryptrackerRepository
 import com.ripzery.cryptracker.repository.remote.CryptrackerRemoteDataSource
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor
@@ -11,17 +12,15 @@ import com.ripzery.cryptracker.utils.SharePreferenceHelper
 /**
  * Created by ripzery on 10/29/17.
  */
-class PriceViewModel : ViewModel(), LifecycleObserver {
+class PriceViewModel(private val cryptrackerRepository: CryptrackerRepository) : ViewModel(), LifecycleObserver {
     private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
     private lateinit var mCrytoList: MutableList<String>
-    private lateinit var mCurrency: Pair<String, String>
     private val mCryptoListLiveData: MutableLiveData<MutableList<String>> = MutableLiveData()
-    private val mCurrencyLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
 
     /* For handle app is killed */
     fun init(savedInstanceState: Bundle?) {
-        mCrytoList = savedInstanceState?.getStringArrayList(SAVED_STATE_CRYPTO_LIST)?.toMutableList() ?: SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
-        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        mCrytoList = savedInstanceState?.getStringArrayList(SAVED_STATE_CRYPTO_LIST)?.toMutableList() ?: cryptrackerRepository.getCryptoList().toMutableList()
+        cryptrackerRepository.loadCurrency()
     }
 
     fun getCryptocurrencyList(): MutableLiveData<MutableList<String>> {
@@ -29,16 +28,10 @@ class PriceViewModel : ViewModel(), LifecycleObserver {
         return mCryptoListLiveData
     }
 
-    fun getCurrencyLiveData(): MutableLiveData<Pair<String, String>> {
-        mCurrencyLiveData.value = mCurrency
-        return mCurrencyLiveData
-    }
-
     fun refresh() {
-        mCrytoList = SharePreferenceHelper.readCryptocurrencySetting().toMutableList()
-        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        mCrytoList = cryptrackerRepository.getCryptoList().toMutableList()
         mCryptoListLiveData.value = mCrytoList
-        mCurrencyLiveData.value = mCurrency
+        cryptrackerRepository.loadCurrency()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

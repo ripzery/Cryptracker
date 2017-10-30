@@ -25,7 +25,7 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
     }
 
     override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()
-    override fun getCurrency(): Pair<String, String> = cryptrackerRemoteDataSource.getCurrency()
+    override fun loadCurrency(): Pair<String, String> = cryptrackerLocalDataSource.loadCurrency()
 
     companion object {
         private var INSTANCE: CryptrackerRepository? = null

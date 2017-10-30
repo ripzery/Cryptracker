@@ -61,5 +61,5 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
     }
 
     override fun getCryptoList(): List<String> = listOf()
-    override fun getCurrency(): Pair<String, String> = Pair("usd", "thb")
+    override fun loadCurrency(): Pair<String, String> = Pair("usd", "thb")
 }

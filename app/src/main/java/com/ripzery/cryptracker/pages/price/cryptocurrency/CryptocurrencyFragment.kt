@@ -20,8 +20,6 @@ class CryptocurrencyFragment : Fragment() {
 
     /** Variable zone **/
     private lateinit var mCryptocurrency: String
-    private lateinit var mCurrencyTop: String
-    private lateinit var mCurrencyBottom: String
     private lateinit var mSpringHelper: SpringHelper<View, View>
 
     private val mViewModel by lazy { getViewModel(CryptocurrencyViewModel::class.java).apply { init(mCryptocurrency) } }
@@ -30,14 +28,10 @@ class CryptocurrencyFragment : Fragment() {
     /** Static method zone **/
     companion object {
         val ARG_1 = "ARG_1"
-        val ARG_2 = "ARG_2"
-        val ARG_3 = "ARG_3"
-        fun newInstance(cryptocurrency: String, currencyTop: String, currencyBottom: String): CryptocurrencyFragment {
+        fun newInstance(cryptocurrency: String): CryptocurrencyFragment {
             return CryptocurrencyFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_1, cryptocurrency)
-                    putString(ARG_2, currencyTop)
-                    putString(ARG_3, currencyBottom)
                 }
             }
         }
@@ -49,8 +43,6 @@ class CryptocurrencyFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mCryptocurrency = arguments.getString(ARG_1)
-        mCurrencyTop = arguments.getString(ARG_2)
-        mCurrencyBottom = arguments.getString(ARG_3)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -20,6 +20,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.ripzery.cryptracker.R
+import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.pages.price.cryptocurrency.CryptocurrencyFragment
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class PriceActivity : AppCompatActivity() {
 
     private var mCryptocurrencyList: MutableList<String> = mutableListOf("omisego", "everex", "ethereum", "bitcoin")
-    private val mViewModel by lazy { ViewModelProviders.of(this).get(PriceViewModel::class.java) }
+    private val mViewModel by lazy { getViewModel(PriceViewModel::class.java) }
     private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, fm = supportFragmentManager) }
     private val MAX_ITEMS_TAB_LAYOUT_FIXED = 4
     private val SAVED_STATE_CRYPTO_LIST = "cryptocurrency_list"
@@ -41,7 +42,6 @@ class PriceActivity : AppCompatActivity() {
 
         mViewModel.init(savedInstanceState)
         mViewModel.getCryptocurrencyList().observe(this, mCryptoListObserver)
-        mViewModel.getCurrencyLiveData().observe(this, mCurrencyObserver)
         initInstance()
     }
 
@@ -51,12 +51,6 @@ class PriceActivity : AppCompatActivity() {
         mPagerAdapter.cryptocurrencyList.addAll(mCryptocurrencyList)
         mPagerAdapter.notifyDataSetChanged()
         handleTabLayoutMode(mCryptocurrencyList.size)
-    }
-
-    private val mCurrencyObserver = Observer<Pair<String, String>> {
-        mPagerAdapter.currencyTop = it!!.first
-        mPagerAdapter.currencyBottom = it.second
-        mPagerAdapter.notifyDataSetChanged()
     }
 
     private fun initInstance() {
@@ -134,10 +128,8 @@ class PriceActivity : AppCompatActivity() {
     }
 
     class PricePagerAdapter(var cryptocurrencyList: MutableList<String>,
-                            var currencyTop: String = SharePreferenceHelper.readCurrencyTop(),
-                            var currencyBottom: String = SharePreferenceHelper.readCurrencyBottom(),
                             fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-        override fun getItem(position: Int): Fragment = CryptocurrencyFragment.newInstance(cryptocurrencyList[position], currencyTop, currencyBottom)
+        override fun getItem(position: Int): Fragment = CryptocurrencyFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]
         override fun getItemPosition(`object`: Any?) = POSITION_NONE

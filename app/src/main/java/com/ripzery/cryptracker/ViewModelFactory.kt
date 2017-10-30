@@ -17,7 +17,7 @@ class ViewModelFactory private constructor(
             with(modelClass) {
                 when {
                     isAssignableFrom(CryptocurrencyViewModel::class.java) -> CryptocurrencyViewModel(cryptrackerRepository)
-                    isAssignableFrom(PriceViewModel::class.java) -> PriceViewModel()
+                    isAssignableFrom(PriceViewModel::class.java) -> PriceViewModel(cryptrackerRepository)
                     else -> throw IllegalStateException("Unknown ViewModel class ${modelClass.name}")
                 }
             } as T

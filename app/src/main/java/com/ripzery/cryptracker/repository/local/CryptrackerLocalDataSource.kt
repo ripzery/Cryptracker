@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit
  * Created by ripzery on 10/29/17.
  */
 object CryptrackerLocalDataSource : CryptrackerDataSource {
+    private var mCurrency: Pair<String, String> = Pair("usd", "thb")
     private val USD_TO_THB = 33.23
     private val THB_TO_USD = 0.03
 
@@ -41,9 +42,8 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
                         else -> Observable.just(Pair("1", "2"))
                     }
                 }
-                .map { // Convert currency
-                    val currency = getCurrency()
-                    return@map when ("${currency.first}${currency.second}") {
+                .map {
+                    return@map when ("${mCurrency.first}${mCurrency.second}") {
                         "usdusd" -> Pair(it.first, (it.second.toFloat() * THB_TO_USD).to2Precision())
                         "usdthb" -> it
                         "thbthb" -> Pair((it.first.toFloat() * USD_TO_THB).to2Precision(), it.second)
@@ -56,5 +56,8 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
     }
 
     override fun getCryptoList(): List<String> = SharePreferenceHelper.readCryptocurrencySetting().toList()
-    override fun getCurrency(): Pair<String, String> = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+    override fun loadCurrency(): Pair<String, String> {
+        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        return mCurrency
+    }
 }

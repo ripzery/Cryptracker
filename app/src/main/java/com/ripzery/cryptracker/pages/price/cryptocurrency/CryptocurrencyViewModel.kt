@@ -3,7 +3,6 @@ package com.ripzery.cryptracker.pages.price.cryptocurrency
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import com.ripzery.cryptracker.extensions.TAG
 import com.ripzery.cryptracker.repository.CryptrackerRepository
 import io.reactivex.disposables.CompositeDisposable
 
@@ -30,6 +29,5 @@ class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepo
     override fun onCleared() {
         super.onCleared()
         mDisposableList.clear()
-        Log.d(TAG, "Disposable cleared!")
     }
 }

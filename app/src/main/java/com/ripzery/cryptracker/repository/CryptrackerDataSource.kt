@@ -12,6 +12,6 @@ interface CryptrackerDataSource {
     fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>>
     fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>>
 
-    fun getCurrency(): Pair<String, String>
+    fun loadCurrency(): Pair<String, String>
     fun getCryptoList(): List<String>
 }

@@ -2,7 +2,7 @@ package com.ripzery.cryptracker.repository.remote
 
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
-import com.ripzery.cryptracker.db.LastSeenPrice
+import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.NetworkProvider
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
@@ -10,6 +10,7 @@ import com.ripzery.cryptracker.utils.DbHelper
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -30,19 +31,19 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                     val cmcPrice = cmc[0].price.toDouble()
                     when (cryptoCurrency) {
                         "everex" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice, cmcPrice))
+                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice, cmcPrice, Date()))
                             Pair(cmcPrice.to2Precision(), bx.evx.lastPrice.to2Precision())
                         }
                         "omisego" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice, cmcPrice))
+                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice, cmcPrice, Date()))
                             Pair(cmcPrice.to2Precision(), bx.omg.lastPrice.to2Precision())
                         }
                         "ethereum" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice, cmcPrice))
+                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice, cmcPrice, Date()))
                             Pair(cmcPrice.to2Precision(), bx.eth.lastPrice.to2Precision())
                         }
                         "bitcoin" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice, cmcPrice))
+                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice, cmcPrice, Date()))
                             Pair(cmcPrice.to2Precision(), bx.btc.lastPrice.to2Precision())
                         }
                         else -> Pair("Unknown", "Unknown")

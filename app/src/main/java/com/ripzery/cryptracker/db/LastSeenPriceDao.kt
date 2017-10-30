@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
+import com.ripzery.cryptracker.db.entities.LastSeenPrice
 
 /**
  * Created by ripzery on 10/30/17.

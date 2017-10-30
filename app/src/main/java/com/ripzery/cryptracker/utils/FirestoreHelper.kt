@@ -27,6 +27,19 @@ object FirestoreHelper {
                 .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
     }
 
+    @SuppressLint("HardwareIds")
+    fun addAllLastSeenPrice(deviceId: String) {
+        val allLastSeenPrice = DbHelper.db.lastSeen().getAll()
+        val documentPayload: Map<String, Any> by lazy {
+            allLastSeenPrice.map {
+                Pair(CurrencyToIdHelper.getCurrency(it.id), hashMapOf(Pair("bx_price", it.bxPrice), Pair("cmc_price", it.cmcPrice)))
+            }.toMap()
+        }
+        mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
+                .addOnSuccessListener { Log.d("FirestoreHelper", "Add last seen price to Firestore successfully.") }
+                .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
+    }
+
     fun updateRefreshedToken(deviceId: String, refreshedToken: String) {
         val documentPayload: Map<String, Any> by lazy {
             hashMapOf(

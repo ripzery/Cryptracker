@@ -11,11 +11,11 @@ import android.arch.persistence.room.Query
  */
 @Dao
 interface LastSeenPriceDao {
-    @Query("SELECT * FROM last_seen_price")
+    @Query("SELECT * FROM last_seen_price ORDER BY id ASC")
     fun getAll(): List<LastSeenPrice>
 
     @Query("SELECT * from last_seen_price where id == :arg0")
-    fun getPrice(id: Int): LastSeenPrice
+    fun getPrice(id: Int): LastSeenPrice?
 
     @Insert(onConflict = REPLACE)
     fun insert(lastSeenPrice: LastSeenPrice)

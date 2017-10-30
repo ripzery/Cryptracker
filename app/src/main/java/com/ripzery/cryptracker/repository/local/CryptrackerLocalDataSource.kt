@@ -35,10 +35,10 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
                 .flatMap {
                     val lastSeen = DbHelper.db.lastSeen()
                     when (cryptoCurrency) {
-                        "omisego" -> Observable.just(Pair(lastSeen.getPrice(26).cmcPrice.to2Precision(), lastSeen.getPrice(26).bxPrice.to2Precision()))
-                        "everex" -> Observable.just(Pair(lastSeen.getPrice(28).cmcPrice.to2Precision(), lastSeen.getPrice(28).bxPrice.to2Precision()))
-                        "ethereum" -> Observable.just(Pair(lastSeen.getPrice(21).cmcPrice.to2Precision(), lastSeen.getPrice(21).bxPrice.to2Precision()))
-                        "bitcoin" -> Observable.just(Pair(lastSeen.getPrice(1).cmcPrice.to2Precision(), lastSeen.getPrice(1).bxPrice.to2Precision()))
+                        "omisego" -> Observable.just(Pair(lastSeen.getPrice(26)?.cmcPrice?.to2Precision() ?: "...", lastSeen.getPrice(26)?.bxPrice?.to2Precision() ?: "..."))
+                        "everex" -> Observable.just(Pair(lastSeen.getPrice(28)?.cmcPrice?.to2Precision() ?: "...", lastSeen.getPrice(28)?.bxPrice?.to2Precision() ?: "..."))
+                        "ethereum" -> Observable.just(Pair(lastSeen.getPrice(21)?.cmcPrice?.to2Precision() ?: "...", lastSeen.getPrice(21)?.bxPrice?.to2Precision() ?: "..."))
+                        "bitcoin" -> Observable.just(Pair(lastSeen.getPrice(1)?.cmcPrice?.to2Precision() ?: "...", lastSeen.getPrice(1)?.bxPrice?.to2Precision() ?: "..."))
                         else -> Observable.just(Pair("1", "2"))
                     }
                 }
@@ -48,6 +48,7 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
                         "usdthb" -> it
                         "thbthb" -> Pair((it.first.toFloat() * USD_TO_THB).to2Precision(), it.second)
                         "thbusd" -> Pair((it.first.toFloat() * USD_TO_THB).to2Precision(), (it.second.toFloat() * THB_TO_USD).to2Precision())
+                        "......" -> it
                         else -> throw UnsupportedOperationException("Unsupported currency!")
                     }
                 }

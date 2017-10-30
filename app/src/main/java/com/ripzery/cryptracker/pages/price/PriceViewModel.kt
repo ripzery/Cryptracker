@@ -3,11 +3,9 @@ package com.ripzery.cryptracker.pages.price
 import android.arch.lifecycle.*
 import android.os.Bundle
 import com.ripzery.cryptracker.repository.CryptrackerRepository
-import com.ripzery.cryptracker.repository.remote.CryptrackerRemoteDataSource
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor
-import com.ripzery.cryptracker.utils.CurrencyContants
-import com.ripzery.cryptracker.utils.SharePreferenceHelper
+import com.ripzery.cryptracker.utils.DbHelper
 
 /**
  * Created by ripzery on 10/29/17.
@@ -36,6 +34,6 @@ class PriceViewModel(private val cryptrackerRepository: CryptrackerRepository) :
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun updatePriceOnFireStore() {
-
+        FirestoreService.startActionSetLastSeenPrice(Contextor.context)
     }
 }

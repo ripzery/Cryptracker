@@ -63,7 +63,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun getPriceCurrency(currency: String): String {
         val id = CurrencyToIdHelper.getId(currency)
-        return DbHelper.db.lastSeen().getPrice(id).bxPrice.to2Precision()
+        return DbHelper.db.lastSeen().getPrice(id)?.bxPrice?.to2Precision() ?: "unknown"
     }
 
     private fun writePriceCurrency(currency: String?, price: Double?) {

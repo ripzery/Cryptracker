@@ -32,12 +32,10 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                     val cmcPrice = cmc[0].price.toDouble()
                     when (cryptoCurrency) {
                         "everex" -> {
-                            val lastPriceEvx = Pair(cmcPrice, bx.evx.lastPrice)
                             DbHelper.db.lastSeen().insert(LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice, cmcPrice))
                             Pair(cmcPrice.to2Precision(), bx.evx.lastPrice.to2Precision())
                         }
                         "omisego" -> {
-                            val lastPriceOmiseGo = Pair(cmcPrice, bx.omg.lastPrice)
                             DbHelper.db.lastSeen().insert(LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice, cmcPrice))
                             Pair(cmcPrice.to2Precision(), bx.omg.lastPrice.to2Precision())
                         }

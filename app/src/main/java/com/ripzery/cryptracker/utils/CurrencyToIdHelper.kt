@@ -13,4 +13,14 @@ object CurrencyToIdHelper {
             else -> throw UnsupportedOperationException("Unknown currency $currency")
         }
     }
+
+    fun getCurrency(id: Int): String {
+        return when (id) {
+            26 -> "omg"
+            28 -> "evx"
+            21 -> "eth"
+            1 -> "btc"
+            else -> throw UnsupportedOperationException("Unknown currency id $id")
+        }
+    }
 }

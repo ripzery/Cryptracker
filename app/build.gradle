@@ -3,8 +3,8 @@ apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-def prefixPath = System.getenv("BUDDYBUILD_SECURE_FILES")
-if(prefixPath == null) prefixPath = ""
+def prefixPath = System.getenv("BUDDYBUILD_SECURE_FILES") + "/"
+if(System.getenv("BUDDYBUILD_SECURE_FILES") == null) prefixPath = ""
 def keystorePropertiesFile = rootProject.file(prefixPath + "keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))

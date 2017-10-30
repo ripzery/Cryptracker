@@ -130,6 +130,6 @@ class PriceActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment = CryptocurrencyFragment.newInstance(cryptocurrencyList[position])
         override fun getCount(): Int = cryptocurrencyList.size
         override fun getPageTitle(position: Int) = cryptocurrencyList[position]
-        override fun getItemPosition(`object`: Any?) = POSITION_NONE
+        override fun getItemPosition(`object`: Any) = POSITION_NONE
     }
 }

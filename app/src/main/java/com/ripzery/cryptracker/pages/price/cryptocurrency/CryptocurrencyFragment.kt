@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
-import com.ripzery.cryptracker.utils.SpringHelper
 import com.ripzery.cryptracker.extensions.getViewModel
+import com.ripzery.cryptracker.utils.SpringHelper
 import kotlinx.android.synthetic.main.fragment_price.*
 
 /**
@@ -42,14 +42,14 @@ class CryptocurrencyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mCryptocurrency = arguments.getString(ARG_1)
+        mCryptocurrency = arguments?.getString(ARG_1) ?: "omg"
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_price, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_price, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInstance()
     }

@@ -2,7 +2,6 @@ package com.ripzery.cryptracker.pages.price
 
 import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -23,7 +22,6 @@ import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.pages.price.cryptocurrency.CryptocurrencyFragment
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
-import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import kotlinx.android.synthetic.main.activity_price.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 

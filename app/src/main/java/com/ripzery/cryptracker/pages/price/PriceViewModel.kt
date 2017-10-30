@@ -5,7 +5,6 @@ import android.os.Bundle
 import com.ripzery.cryptracker.repository.CryptrackerRepository
 import com.ripzery.cryptracker.services.FirestoreService
 import com.ripzery.cryptracker.utils.Contextor
-import com.ripzery.cryptracker.utils.DbHelper
 
 /**
  * Created by ripzery on 10/29/17.

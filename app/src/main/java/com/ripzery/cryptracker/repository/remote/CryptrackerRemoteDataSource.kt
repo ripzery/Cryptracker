@@ -6,8 +6,6 @@ import com.ripzery.cryptracker.db.LastSeenPrice
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.NetworkProvider
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
-import com.ripzery.cryptracker.services.FirestoreService
-import com.ripzery.cryptracker.utils.Contextor
 import com.ripzery.cryptracker.utils.DbHelper
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction

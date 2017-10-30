@@ -3,11 +3,18 @@ apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+// Keystore Properties
 def prefixPath = System.getenv("BUDDYBUILD_SECURE_FILES") + "/"
 if(System.getenv("BUDDYBUILD_SECURE_FILES") == null) prefixPath = ""
 def keystorePropertiesFile = rootProject.file(prefixPath + "keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+// Handle versionCode
+static def getVersionCode() {
+    if(System.getenv("BUDDYBUILD_BUILD_NUMBER") != null) return System.getenv("BUDDYBUILD_BUILD_NUMBER")
+    else return 61
+}
 
 android {
     signingConfigs {
@@ -24,7 +31,7 @@ android {
         applicationId "com.ripzery.cryptracker"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 56
+        versionCode getVersionCode()
         versionName "1.3"
         testInstrumentationRunner "com.ripzery.cryptracker.CustomJunitRunner"
     }

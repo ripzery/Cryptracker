@@ -34,13 +34,11 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                         "everex" -> {
                             val lastPriceEvx = Pair(cmcPrice, bx.evx.lastPrice)
                             DbHelper.db.lastSeen().insert(LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice, cmcPrice))
-                            FirestoreService.startActionSetLastSeenPriceEVX(Contextor.context, lastPriceEvx)
                             Pair(cmcPrice.to2Precision(), bx.evx.lastPrice.to2Precision())
                         }
                         "omisego" -> {
                             val lastPriceOmiseGo = Pair(cmcPrice, bx.omg.lastPrice)
                             DbHelper.db.lastSeen().insert(LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice, cmcPrice))
-                            FirestoreService.startActionSetLastSeenPriceOMG(Contextor.context, lastPriceOmiseGo)
                             Pair(cmcPrice.to2Precision(), bx.omg.lastPrice.to2Precision())
                         }
                         "ethereum" -> {

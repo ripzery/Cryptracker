@@ -11,7 +11,6 @@ import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by ripzery on 10/29/17.
@@ -25,33 +24,30 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
         return NetworkProvider.apiCoinMarketCap.getPrice(currency)
     }
 
-    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
+    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val getAllPrice = Observable.zip(getCmcPrice(cryptoCurrency), getBxPrice(),
-                BiFunction<List<CoinMarketCapResult>, BxPrice, Pair<String, String>> { cmc, bx ->
+                BiFunction<List<CoinMarketCapResult>, BxPrice, LastSeenPrice> { cmc, bx ->
                     val cmcPrice = cmc[0].price.toDouble()
-                    when (cryptoCurrency) {
+                    val lastSeenPrice = when (cryptoCurrency) {
                         "everex" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice, cmcPrice, Date()))
-                            Pair(cmcPrice.to2Precision(), bx.evx.lastPrice.to2Precision())
+                            LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
                         "omisego" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice, cmcPrice, Date()))
-                            Pair(cmcPrice.to2Precision(), bx.omg.lastPrice.to2Precision())
+                            LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
                         "ethereum" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice, cmcPrice, Date()))
-                            Pair(cmcPrice.to2Precision(), bx.eth.lastPrice.to2Precision())
+                            LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
                         "bitcoin" -> {
-                            DbHelper.db.lastSeen().insert(LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice, cmcPrice, Date()))
-                            Pair(cmcPrice.to2Precision(), bx.btc.lastPrice.to2Precision())
+                            LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
-                        else -> Pair("Unknown", "Unknown")
+                        else -> LastSeenPrice()
                     }
+                    DbHelper.db.lastSeen().insert(lastSeenPrice)
+                    lastSeenPrice
                 })
 
-        return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
-                .flatMap { getAllPrice }
+        return getAllPrice
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
     }

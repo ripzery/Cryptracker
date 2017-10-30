@@ -12,11 +12,11 @@ import java.util.*
  */
 @Entity(tableName = "last_seen_price")
 @TypeConverters(DateTypeConverter::class)
-class LastSeenPrice(
+data class LastSeenPrice(
         @PrimaryKey var id: Int = 1,
         @ColumnInfo(name = "bx_price") var bxPrice: Double = 0.0,
         @ColumnInfo(name = "cmc_price") var cmcPrice: Double = 0.0,
         @ColumnInfo(name = "date_modified") var dateModified: Date = Date()
-){
+) {
 
 }

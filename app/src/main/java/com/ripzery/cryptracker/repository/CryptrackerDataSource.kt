@@ -2,6 +2,7 @@ package com.ripzery.cryptracker.repository
 
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
+import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import io.reactivex.Observable
 
 /**
@@ -10,7 +11,7 @@ import io.reactivex.Observable
 interface CryptrackerDataSource {
     fun getBxPrice(): Observable<BxPrice>
     fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>>
-    fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>>
+    fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice>
 
     fun loadCurrency(): Pair<String, String>
     fun getCryptoList(): List<String>

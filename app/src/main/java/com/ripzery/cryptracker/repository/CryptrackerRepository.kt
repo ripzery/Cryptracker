@@ -2,7 +2,9 @@ package com.ripzery.cryptracker.repository
 
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
+import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by ripzery on 10/29/17.
@@ -18,10 +20,11 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
         return cryptrackerRemoteDataSource.getCmcPrice(currency)
     }
 
-    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
-        val d = cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond).subscribe({ }, { error -> error.printStackTrace() })
-        return cryptrackerLocalDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond)
-                .doOnDispose { d.dispose() }
+    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
+        return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
+                .flatMap { cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
+                .onErrorResumeNext { throwable: Throwable -> Observable.empty() } // Override default onError if network is down
+                .flatMap { cryptrackerLocalDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
     }
 
     override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()

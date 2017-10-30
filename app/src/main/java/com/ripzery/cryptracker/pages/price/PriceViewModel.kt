@@ -36,14 +36,6 @@ class PriceViewModel(private val cryptrackerRepository: CryptrackerRepository) :
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun updatePriceOnFireStore() {
-        if (CryptrackerRemoteDataSource.lastPriceOmiseGo != null) {
-            FirestoreService.startActionSetLastSeenPriceOMG(Contextor.context, CryptrackerRemoteDataSource.lastPriceOmiseGo!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.OMG, CryptrackerRemoteDataSource.lastPriceOmiseGo!!.second)
-        }
 
-        if (CryptrackerRemoteDataSource.lastPriceEvx != null) {
-            FirestoreService.startActionSetLastSeenPriceEVX(Contextor.context, CryptrackerRemoteDataSource.lastPriceEvx!!)
-            SharePreferenceHelper.writeDouble(CurrencyContants.EVX, CryptrackerRemoteDataSource.lastPriceEvx!!.second)
-        }
     }
 }

@@ -18,9 +18,9 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
         return cryptrackerRemoteDataSource.getCmcPrice(currency)
     }
 
-    override fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
-        val d = cryptrackerRemoteDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond).subscribe({ }, { error -> error.printStackTrace() })
-        return cryptrackerLocalDataSource.getAllPriceInterval(cryptoCurrency, intervalInSecond)
+    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
+        val d = cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond).subscribe({ }, { error -> error.printStackTrace() })
+        return cryptrackerLocalDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond)
                 .doOnDispose { d.dispose() }
     }
 

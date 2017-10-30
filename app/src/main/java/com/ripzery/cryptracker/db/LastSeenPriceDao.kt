@@ -15,10 +15,13 @@ interface LastSeenPriceDao {
     fun getAll(): List<LastSeenPrice>
 
     @Query("SELECT * from last_seen_price where id == :arg0")
-    fun getPrice(id: Int) : LastSeenPrice
+    fun getPrice(id: Int): LastSeenPrice
 
     @Insert(onConflict = REPLACE)
     fun insert(lastSeenPrice: LastSeenPrice)
+
+    @Query("UPDATE last_seen_price SET bx_price = :arg1 WHERE id = :arg0")
+    fun updateOMGPrice(id: Int, price: Double)
 
     @Delete
     fun delete(lastSeenPrice: LastSeenPrice)

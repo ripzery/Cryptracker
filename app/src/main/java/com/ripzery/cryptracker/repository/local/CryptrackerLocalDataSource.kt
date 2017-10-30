@@ -30,7 +30,7 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
         return Observable.just(listOf(CoinMarketCapResult("255", "24", "omg", "1")))
     }
 
-    override fun getAllPriceInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
+    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<Pair<String, String>> {
         return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
                 .flatMap {
                     val lastSeen = DbHelper.db.lastSeen()

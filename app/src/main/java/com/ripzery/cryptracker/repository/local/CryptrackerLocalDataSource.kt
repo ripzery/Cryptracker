@@ -16,18 +16,6 @@ import io.reactivex.schedulers.Schedulers
  */
 object CryptrackerLocalDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair("usd", "thb")
-
-    override fun getBxPrice(): Observable<BxPrice> {
-        return Observable.just(BxPrice(PairedCurrency(1, 255.5, 15.4),
-                PairedCurrency(2, 33.0, 1.0),
-                PairedCurrency(3, 9000.0, 1000.0),
-                PairedCurrency(4, 190000.4, 10000.2)))
-    }
-
-    override fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>> {
-        return Observable.just(listOf(CoinMarketCapResult("255", "24", "omg", "1")))
-    }
-
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val lastSeen = DbHelper.db.lastSeen()
         val lastSeenObservable = when (cryptoCurrency) {

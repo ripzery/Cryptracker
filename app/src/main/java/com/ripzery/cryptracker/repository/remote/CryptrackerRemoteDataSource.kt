@@ -20,16 +20,8 @@ import java.util.*
 object CryptrackerRemoteDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair("usd", "thb")
 
-    override fun getBxPrice(): Observable<BxPrice> {
-        return NetworkProvider.apiBx.getPriceList()
-    }
-
-    override fun getCmcPrice(currency: String): Observable<List<CoinMarketCapResult>> {
-        return NetworkProvider.apiCoinMarketCap.getPrice(currency)
-    }
-
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
-        val getAllPrice = Observable.zip(getCmcPrice(cryptoCurrency), getBxPrice(),
+        val getAllPrice = Observable.zip(NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency), NetworkProvider.apiBx.getPriceList(),
                 BiFunction<List<CoinMarketCapResult>, BxPrice, LastSeenPrice> { cmc, bx ->
                     val cmcPrice = cmc[0].price.toDouble()
                     val lastSeenPrice = when (cryptoCurrency) {
@@ -57,8 +49,7 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                 .observeOn(Schedulers.io())
     }
 
-    override fun getCryptoList(): List<String> = listOf()
-
+    override fun getCryptoList(): List<String> = SharePreferenceHelper.readCryptocurrencySetting().toList()
     override fun loadCurrency(): Pair<String, String> {
         mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
         return mCurrency

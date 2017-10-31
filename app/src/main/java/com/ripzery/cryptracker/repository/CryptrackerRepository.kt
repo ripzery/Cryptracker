@@ -1,7 +1,5 @@
 package com.ripzery.cryptracker.repository
 
-import com.ripzery.cryptracker.data.BxPrice
-import com.ripzery.cryptracker.data.CoinMarketCapResult
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit

@@ -1,8 +1,5 @@
 package com.ripzery.cryptracker.repository.local
 
-import com.ripzery.cryptracker.data.BxPrice
-import com.ripzery.cryptracker.data.CoinMarketCapResult
-import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.repository.CryptrackerDataSource

@@ -12,7 +12,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 // Handle versionCode
 static def getVersionCode() {
-    if(System.getenv("BUDDYBUILD_BUILD_NUMBER") != null) return System.getenv("BUDDYBUILD_BUILD_NUMBER") - 1
+    if(System.getenv("BUDDYBUILD_BUILD_NUMBER") != null) return System.getenv("BUDDYBUILD_BUILD_NUMBER")
     else return 61
 }
 

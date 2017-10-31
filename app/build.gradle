@@ -87,6 +87,13 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
+
+    testCompile ('org.jetbrains.spek:spek-api:1.1.5') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
 }
 
 apply plugin: 'com.google.gms.google-services'

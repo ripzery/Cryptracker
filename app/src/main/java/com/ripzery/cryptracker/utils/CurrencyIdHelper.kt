@@ -3,7 +3,7 @@ package com.ripzery.cryptracker.utils
 /**
  * Created by ripzery on 10/30/17.
  */
-object CurrencyToIdHelper {
+object CurrencyIdHelper {
     fun getId(currency: String): Int {
         return when (currency) {
             "omg" -> 26

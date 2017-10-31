@@ -14,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.pages.price.PriceActivity
-import com.ripzery.cryptracker.utils.CurrencyToIdHelper
+import com.ripzery.cryptracker.utils.CurrencyIdHelper
 import com.ripzery.cryptracker.utils.DbHelper
 
 /**
@@ -62,13 +62,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun getPriceCurrency(currency: String): String {
-        val id = CurrencyToIdHelper.getId(currency)
+        val id = CurrencyIdHelper.getId(currency)
         return DbHelper.db.lastSeen().getPrice(id)?.bxPrice?.to2Precision() ?: "unknown"
     }
 
     private fun writePriceCurrency(currency: String?, price: Double?) {
         if (price != null && currency != null) {
-            DbHelper.db.lastSeen().updateOMGPrice(CurrencyToIdHelper.getId(currency), price)
+            DbHelper.db.lastSeen().updateOMGPrice(CurrencyIdHelper.getId(currency), price)
         }
     }
 }

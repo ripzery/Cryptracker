@@ -7,6 +7,7 @@ import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.NetworkProvider
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
+import com.ripzery.cryptracker.utils.CurrencyConstants
 import com.ripzery.cryptracker.utils.DbHelper
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import io.reactivex.Observable
@@ -18,23 +19,23 @@ import java.util.*
  * Created by ripzery on 10/29/17.
  */
 object CryptrackerRemoteDataSource : CryptrackerDataSource {
-    private var mCurrency: Pair<String, String> = Pair("usd", "thb")
+    private var mCurrency: Pair<String, String> = Pair(CurrencyConstants.USD, CurrencyConstants.THB)
 
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val getAllPrice = Observable.zip(NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency), NetworkProvider.apiBx.getPriceList(),
                 BiFunction<List<CoinMarketCapResult>, BxPrice, LastSeenPrice> { cmc, bx ->
                     val cmcPrice = cmc[0].price.toDouble()
                     val lastSeenPrice = when (cryptoCurrency) {
-                        "everex" -> {
+                        CurrencyConstants.EVX_FULL_NAME -> {
                             LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
-                        "omisego" -> {
+                        CurrencyConstants.OMG_FULL_NAME -> {
                             LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
-                        "ethereum" -> {
+                        CurrencyConstants.ETH_FULL_NAME -> {
                             LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
-                        "bitcoin" -> {
+                        CurrencyConstants.BTC_FULL_NAME -> {
                             LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                         }
                         else -> LastSeenPrice()

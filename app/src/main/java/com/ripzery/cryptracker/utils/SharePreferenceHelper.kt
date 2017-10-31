@@ -12,10 +12,10 @@ object SharePreferenceHelper {
     }
 
     fun readCurrencyTop(): String {
-        return sharePref.getString("setting_customize_currency_upper_part", "usd")
+        return sharePref.getString("setting_customize_currency_upper_part", CurrencyConstants.USD)
     }
 
     fun readCurrencyBottom(): String {
-        return sharePref.getString("setting_customize_currency_lower_part", "thb")
+        return sharePref.getString("setting_customize_currency_lower_part", CurrencyConstants.THB)
     }
 }

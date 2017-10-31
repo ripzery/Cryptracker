@@ -19,7 +19,7 @@ object FirestoreHelper {
         val allLastSeenPrice = DbHelper.db.lastSeen().getAll()
         val documentPayload: Map<String, Any> by lazy {
             allLastSeenPrice.map {
-                Pair(CurrencyToIdHelper.getCurrency(it.id), hashMapOf(Pair("bx_price", it.bxPrice), Pair("cmc_price", it.cmcPrice)))
+                Pair(CurrencyIdHelper.getCurrency(it.id), hashMapOf(Pair("bx_price", it.bxPrice), Pair("cmc_price", it.cmcPrice)))
             }.toMap()
         }
         mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())

@@ -23,12 +23,15 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
                 .flatMap { cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
-                .onErrorResumeNext { throwable: Throwable -> Observable.empty() } // Override default onError if network is down
-                .flatMap { cryptrackerLocalDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
+                .retry()
     }
 
     override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()
-    override fun loadCurrency(): Pair<String, String> = cryptrackerLocalDataSource.loadCurrency()
+
+    override fun loadCurrency(): Pair<String, String> {
+        cryptrackerRemoteDataSource.loadCurrency()
+        return cryptrackerLocalDataSource.loadCurrency()
+    }
 
     companion object {
         private var INSTANCE: CryptrackerRepository? = null

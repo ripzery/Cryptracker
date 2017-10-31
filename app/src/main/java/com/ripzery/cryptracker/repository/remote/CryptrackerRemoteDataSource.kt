@@ -3,10 +3,12 @@ package com.ripzery.cryptracker.repository.remote
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
+import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.NetworkProvider
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
 import com.ripzery.cryptracker.utils.DbHelper
+import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -16,6 +18,8 @@ import java.util.*
  * Created by ripzery on 10/29/17.
  */
 object CryptrackerRemoteDataSource : CryptrackerDataSource {
+    private var mCurrency: Pair<String, String> = Pair("usd", "thb")
+
     override fun getBxPrice(): Observable<BxPrice> {
         return NetworkProvider.apiBx.getPriceList()
     }
@@ -48,10 +52,15 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                 })
 
         return getAllPrice
+                .map { it.applyCurrency(mCurrency) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
     }
 
     override fun getCryptoList(): List<String> = listOf()
-    override fun loadCurrency(): Pair<String, String> = Pair("usd", "thb")
+
+    override fun loadCurrency(): Pair<String, String> {
+        mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
+        return mCurrency
+    }
 }

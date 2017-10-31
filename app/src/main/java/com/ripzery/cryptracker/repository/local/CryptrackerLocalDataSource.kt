@@ -1,10 +1,10 @@
 package com.ripzery.cryptracker.repository.local
 
-import android.util.Log
 import com.ripzery.cryptracker.data.BxPrice
 import com.ripzery.cryptracker.data.CoinMarketCapResult
 import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
+import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
 import com.ripzery.cryptracker.utils.DbHelper
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
@@ -16,8 +16,6 @@ import io.reactivex.schedulers.Schedulers
  */
 object CryptrackerLocalDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair("usd", "thb")
-    private val USD_TO_THB = 33.23
-    private val THB_TO_USD = 0.03
 
     override fun getBxPrice(): Observable<BxPrice> {
         return Observable.just(BxPrice(PairedCurrency(1, 255.5, 15.4),
@@ -39,27 +37,14 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
             "bitcoin" -> Observable.just(lastSeen.getPrice(1) ?: LastSeenPrice())
             else -> Observable.just(LastSeenPrice())
         }
-        return lastSeenObservable.map {
-            it.apply {
-                when ("${mCurrency.first}${mCurrency.second}") {
-                    "usdusd" -> bxPrice *= THB_TO_USD
-                    "usdthb" -> Unit
-                    "thbthb" -> cmcPrice *= USD_TO_THB
-                    "thbusd" -> {
-                        bxPrice *= THB_TO_USD
-                        cmcPrice *= USD_TO_THB
-                    }
-                    "......" -> Unit
-                    else -> throw UnsupportedOperationException("Unsupported currency!")
-                }
-            }
-        }.subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+        return lastSeenObservable.map { it.applyCurrency(mCurrency) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
     }
 
     override fun getCryptoList(): List<String> = SharePreferenceHelper.readCryptocurrencySetting().toList()
     override fun loadCurrency(): Pair<String, String> {
         mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())
-        Log.d("LocalSource", "LoadCurrency!" + mCurrency.toString())
         return mCurrency
     }
 }

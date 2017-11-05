@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    app:layout_scrollFlags="scroll|enterAlways"
     android:paddingEnd="12dp"
+    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     tools:showIn="@layout/fragment_manage_cryptocurrency">
 
@@ -16,13 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:src="@mipmap/ic_launcher" />
+        android:contentDescription="App icon"
+        android:src="@drawable/ic_home" />
 
     <TextView
         android:id="@+id/tvTitle"
         style="@style/text_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Cryptracker"
         android:textColor="@android:color/white" />
 

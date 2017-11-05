@@ -24,7 +24,6 @@
         style="@style/text_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:text="Cryptracker"
         android:textColor="@android:color/white" />
 

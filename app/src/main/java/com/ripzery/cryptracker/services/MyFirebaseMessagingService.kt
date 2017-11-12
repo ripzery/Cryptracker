@@ -16,6 +16,7 @@ import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.pages.price.PriceActivity
 import com.ripzery.cryptracker.utils.CurrencyIdHelper
 import com.ripzery.cryptracker.utils.DbHelper
+import com.ripzery.cryptracker.utils.SharePreferenceHelper
 
 /**
  * Created by ripzery on 10/14/17.
@@ -35,6 +36,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val currency = data["currency"]
+
+        /* If the currency is not save in setting then do not notify!. */
+        val currencyList = SharePreferenceHelper.readCryptocurrencySetting()
+        if (currency !in currencyList) {
+            return
+        }
+
         val price = data["price"]?.toDouble()
         val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
         val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
@@ -63,7 +71,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun getPriceCurrency(currency: String): String {
         val id = CurrencyIdHelper.getId(currency)
-        return DbHelper.db.lastSeen().getPrice(id)?.bxPrice?.to2Precision() ?: "unknown"
+        return DbHelper.db.lastSeen().getPrice(id).bxPrice.to2Precision()
     }
 
     private fun writePriceCurrency(currency: String?, price: Double?) {

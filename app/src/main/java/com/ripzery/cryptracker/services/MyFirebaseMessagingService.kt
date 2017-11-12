@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.pages.price.PriceActivity
+import com.ripzery.cryptracker.utils.CurrencyFullnameHelper
 import com.ripzery.cryptracker.utils.CurrencyIdHelper
 import com.ripzery.cryptracker.utils.DbHelper
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
@@ -39,7 +40,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         /* If the currency is not save in setting then do not notify!. */
         val currencyList = SharePreferenceHelper.readCryptocurrencySetting()
-        if (currency !in currencyList) {
+        if (currency != null && CurrencyFullnameHelper.shortToFull(currency) !in currencyList) {
             return
         }
 

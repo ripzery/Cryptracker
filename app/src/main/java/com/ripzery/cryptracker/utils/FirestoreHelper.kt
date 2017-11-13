@@ -6,6 +6,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.jaredrummler.android.device.DeviceName
+import java.util.*
 
 /**
  * Created by ripzery on 10/14/17.
@@ -22,6 +23,9 @@ object FirestoreHelper {
                 Pair(CurrencyIdHelper.getCurrency(it.id), hashMapOf(Pair("bx_price", it.bxPrice), Pair("cmc_price", it.cmcPrice)))
             }.toMap()
         }
+
+        updateModifiedDate(deviceId)
+
         mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
                 .addOnSuccessListener { Log.d("FirestoreHelper", "Add last seen price to Firestore successfully.") }
                 .addOnFailureListener { Log.e("FirestoreHelper", "Error ${it.message}") }
@@ -35,6 +39,8 @@ object FirestoreHelper {
         }
 
         updateDeviceName(deviceId)
+        updateModifiedDate(deviceId)
+
 
         mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
                 .addOnSuccessListener { Log.d("FirestoreHelper", "Add refreshedToken $refreshedToken to Firestore successfully.") }
@@ -50,5 +56,14 @@ object FirestoreHelper {
             }
             mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
         })
+    }
+
+    private fun updateModifiedDate(deviceId: String) {
+        val documentPayload: Map<String, Any> by lazy {
+            hashMapOf(
+                    Pair("modifiedDate", DateHelper.getReadableDate(Date()))
+            )
+        }
+        mUsersCollection.document(deviceId).set(documentPayload, SetOptions.merge())
     }
 }

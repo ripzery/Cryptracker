@@ -5,14 +5,14 @@ apply plugin: 'kotlin-android-extensions'
 
 // Keystore Properties
 def prefixPath = System.getenv("BUDDYBUILD_SECURE_FILES") + "/"
-if(System.getenv("BUDDYBUILD_SECURE_FILES") == null) prefixPath = ""
+if (System.getenv("BUDDYBUILD_SECURE_FILES") == null) prefixPath = ""
 def keystorePropertiesFile = rootProject.file(prefixPath + "keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 // Handle versionCode
 static def getVersionCode() {
-    if(System.getenv("BUDDYBUILD_BUILD_NUMBER") != null) return System.getenv("BUDDYBUILD_BUILD_NUMBER")
+    if (System.getenv("BUDDYBUILD_BUILD_NUMBER") != null) return System.getenv("BUDDYBUILD_BUILD_NUMBER")
     else return 61
 }
 
@@ -54,8 +54,8 @@ ext {
     appcompat_version = "27.0.0"
     espresso_version = "3.0.1"
     retrofit_version = "2.3.0"
-    firebase_version = "11.4.2"
-    arch_version = '1.0.0-rc1'
+    firebase_version = "11.6.0"
+    arch_version = '1.0.0'
 }
 
 dependencies {
@@ -87,13 +87,6 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
-
-    testCompile ('org.jetbrains.spek:spek-api:1.1.5') {
-        exclude group: 'org.jetbrains.kotlin'
-    }
-    testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
-    testCompile 'org.junit.platform:junit-platform-runner:1.0.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
 }
 
 apply plugin: 'com.google.gms.google-services'

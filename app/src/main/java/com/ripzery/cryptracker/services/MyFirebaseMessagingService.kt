@@ -48,7 +48,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
         val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
 
-        val currentPriceText = if (currency != null) "Your current price is ${getPriceCurrency(currency)}" else ""
+        val currentPriceText = when {
+            currency != null && getPriceCurrency(currency) != null -> "Your current price is ${getPriceCurrency(currency)}"
+            else -> ""
+        }
 
         val notificationBuilder = NotificationCompat.Builder(this, "Cryptracker")
                 .setContentTitle(data["title"])
@@ -70,9 +73,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         writePriceCurrency(currency, price)
     }
 
-    private fun getPriceCurrency(currency: String): String {
+    private fun getPriceCurrency(currency: String): String? {
         val id = CurrencyIdHelper.getId(currency)
-        return DbHelper.db.lastSeen().getPrice(id).bxPrice.to2Precision()
+
+        return DbHelper.db.lastSeen().getPrice(id)?.bxPrice?.to2Precision()
     }
 
     private fun writePriceCurrency(currency: String?, price: Double?) {

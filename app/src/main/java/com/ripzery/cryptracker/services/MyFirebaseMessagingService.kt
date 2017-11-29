@@ -32,7 +32,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(data: Map<String, String>) {
-        val icon: Bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
+        val icon: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_launcher)
 
         val intent = Intent(this, PriceActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)

@@ -38,4 +38,16 @@
             android:title="@string/setting_choose_currency_lower_title" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_notification"
+        android:title="@string/setting_category_notification">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="setting_notification"
+            android:summary="@string/setting_notification_summary"
+            android:title="@string/setting_show_notification_title" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

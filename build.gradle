@@ -1,14 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.0-rc-39'
+    ext.kotlin_version = '1.2.0'
     repositories {
         google()
         jcenter()
-        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:3.1.0'
         classpath 'com.google.firebase:firebase-plugins:1.1.0-alpha1' // 1.1.1 has a bug about firebaseUploadReleaseProguardMapping
@@ -16,15 +15,28 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+apply plugin: 'kotlin'
 
 allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

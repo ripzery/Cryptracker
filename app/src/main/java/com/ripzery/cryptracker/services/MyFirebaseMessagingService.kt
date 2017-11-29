@@ -1,5 +1,7 @@
 package com.ripzery.cryptracker.services
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -7,6 +9,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -26,11 +29,16 @@ import com.ripzery.cryptracker.utils.SharePreferenceHelper
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d("MyMessagingService", message.from)
-//        val notification = message.notification
+
+        // Do not show notification if user disable it
+        Log.d("Test", "${SharePreferenceHelper.readShowNotification()}")
+        if (!SharePreferenceHelper.readShowNotification()) return
+
         val data = message.data
         sendNotification(data)
     }
 
+    @SuppressLint("NewApi")
     private fun sendNotification(data: Map<String, String>) {
         val icon: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_launcher)
 
@@ -54,6 +62,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             else -> ""
         }
 
+        // Sets an ID for the notification, so it can be updated.
+        val notifyID = System.currentTimeMillis().toInt()
+        // The id of the channel.
+        val channelId = getString(R.string.app_name)
+
         val notificationBuilder = NotificationCompat.Builder(this, "Cryptracker")
                 .setContentTitle(data["title"])
                 .setContentText(data["body"]?.replace("<current_price>", currentPriceText))
@@ -64,11 +77,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setLargeIcon(icon)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setColor(colorForSmallIcon)
+                .setChannelId(channelId)
                 .setSmallIcon(smallIcon)
                 .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
+        notificationManager.notify(notifyID, notificationBuilder.build())
 
         // Update price in share preference
         writePriceCurrency(currency, price)

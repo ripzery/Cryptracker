@@ -18,4 +18,8 @@ object SharePreferenceHelper {
     fun readCurrencyBottom(): String {
         return sharePref.getString("setting_customize_currency_lower_part", CurrencyConstants.THB)
     }
+
+    fun readShowNotification(): Boolean {
+        return sharePref.getBoolean("setting_notification", true)
+    }
 }

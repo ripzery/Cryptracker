@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -46,7 +47,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val price = data["price"]?.toDouble()
         val smallIcon = if (data["type"] == "up") R.drawable.ic_notification_trending_up else R.drawable.ic_notification_trending_down
-        val colorForSmallIcon = getColor(if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
+        val colorForSmallIcon = ContextCompat.getColor(applicationContext, if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
 
         val currentPriceText = when {
             currency != null && getPriceCurrency(currency) != null -> "Your last seen price is ${getPriceCurrency(currency)}"

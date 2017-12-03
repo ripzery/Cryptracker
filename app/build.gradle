@@ -87,6 +87,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
     kapt "android.arch.persistence.room:compiler:$arch_version"
+    testImplementation 'org.amshove.kluent:kluent:1.14'
 }
 
 apply plugin: 'com.google.gms.google-services'

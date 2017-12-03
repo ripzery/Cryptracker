@@ -11,6 +11,10 @@ import org.hamcrest.Matchers.not
 /**
  * Created by ripzery on 10/10/17.
  */
+
+/**
+ * Alternative to espresso class. Just add some milk, boom Latte!
+ */
 class LatteView(layoutId: Int) {
     val interaction: ViewInteraction = Espresso.onView(withId(layoutId))
 }

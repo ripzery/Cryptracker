@@ -2,6 +2,8 @@ package com.ripzery.cryptracker
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.swipeLeft
+import android.support.test.espresso.action.ViewActions.swipeRight
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -20,7 +22,17 @@ class LatteView(layoutId: Int) {
 }
 
 class LatteActions(private val interaction: ViewInteraction) {
+    fun goRight() {
+        interaction.perform(swipeRight())
+    }
 
+    fun goLeft() {
+        interaction.perform(swipeLeft())
+    }
+}
+
+infix fun LatteView.make(lambda: LatteActions.() -> Unit) {
+    lambda(LatteActions(interaction))
 }
 
 infix fun LatteView.check(lambda: LatteViewAssertions.() -> Unit) {

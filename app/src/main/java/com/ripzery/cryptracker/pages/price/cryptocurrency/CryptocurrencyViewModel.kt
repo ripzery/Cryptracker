@@ -22,7 +22,7 @@ class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepo
     }
 
     fun pollingPrice(cryptocurrency: String): MutableLiveData<LastSeenPrice> {
-        val d = cryptrackerRepository.updatePriceWithInterval(cryptocurrency, INTERVAL_IN_SECOND)
+        val d = cryptrackerRepository.updatePriceWithInterval(cryptocurrency, INTERVAL_IN_SECOND.toLong())
                 .subscribe({ mLiveData.postValue(it) }, mHandleAPIError)
         mDisposableList.add(d)
         return mLiveData

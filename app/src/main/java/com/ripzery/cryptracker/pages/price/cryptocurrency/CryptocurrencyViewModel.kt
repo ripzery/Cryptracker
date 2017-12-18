@@ -15,13 +15,14 @@ class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepo
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mLiveData: MutableLiveData<LastSeenPrice> = MutableLiveData()
     private lateinit var mCryptocurrency: String
+    private val INTERVAL_IN_SECOND = 10
 
     fun init(cryptocurrency: String) {
         this.mCryptocurrency = cryptocurrency
     }
 
     fun pollingPrice(cryptocurrency: String): MutableLiveData<LastSeenPrice> {
-        val d = cryptrackerRepository.updatePriceWithInterval(cryptocurrency, 5)
+        val d = cryptrackerRepository.updatePriceWithInterval(cryptocurrency, INTERVAL_IN_SECOND)
                 .subscribe({ mLiveData.postValue(it) }, mHandleAPIError)
         mDisposableList.add(d)
         return mLiveData

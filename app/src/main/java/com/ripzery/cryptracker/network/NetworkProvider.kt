@@ -1,6 +1,8 @@
 package com.ripzery.cryptracker.network
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,10 +12,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkProvider {
     private val BASE_URL_BX = "https://bx.in.th/api/"
     private val BASE_URL_COIN_MARKET_CAP = "https://api.coinmarketcap.com/v1/ticker/"
+
     val apiBx: BxApiService by lazy {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BASIC
+        val client = OkHttpClient.Builder().addInterceptor(logging).build()
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .baseUrl(BASE_URL_BX)
                 .build().create(BxApiService::class.java)
     }

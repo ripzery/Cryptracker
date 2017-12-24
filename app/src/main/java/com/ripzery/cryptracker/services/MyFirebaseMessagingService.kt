@@ -1,7 +1,6 @@
 package com.ripzery.cryptracker.services
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -9,7 +8,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
-import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -19,7 +17,6 @@ import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.pages.price.PriceActivity
 import com.ripzery.cryptracker.utils.CurrencyFullnameHelper
-import com.ripzery.cryptracker.utils.CurrencyIdHelper
 import com.ripzery.cryptracker.utils.DbHelper
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 
@@ -94,7 +91,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun writePriceCurrency(currency: String?, price: Double?) {
         if (price != null && currency != null) {
-            DbHelper.db.lastSeen().updateOMGPrice(currency, price)
+            DbHelper.db.lastSeen().update(currency, price)
         }
     }
 }

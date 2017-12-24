@@ -1,5 +1,7 @@
 package com.ripzery.cryptracker.db
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
@@ -22,7 +24,10 @@ interface LastSeenPriceDao {
     fun insert(lastSeenPrice: LastSeenPrice)
 
     @Query("UPDATE last_seen_price SET bx_price = :arg1 WHERE id = :arg0")
-    fun updateOMGPrice(id: String, price: Double)
+    fun update(id: String, price: Double)
+
+    @Query("SELECT * from last_seen_price where id == :arg0")
+    fun getPriceSync(id: String): LiveData<LastSeenPrice>
 
     @Delete
     fun delete(lastSeenPrice: LastSeenPrice)

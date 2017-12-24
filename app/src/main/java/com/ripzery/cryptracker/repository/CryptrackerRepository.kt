@@ -1,5 +1,7 @@
 package com.ripzery.cryptracker.repository
 
+import com.ripzery.cryptracker.data.CoinMarketCapResult
+import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -13,6 +15,11 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
                 .flatMap { cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
+    }
+
+    override fun fetchPriceAndSave(intervalInSecond: Long): Observable<List<Pair<PairedCurrency, CoinMarketCapResult>>>? {
+        return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
+                .flatMap { cryptrackerRemoteDataSource.fetchPriceAndSave(intervalInSecond) }
     }
 
     override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()

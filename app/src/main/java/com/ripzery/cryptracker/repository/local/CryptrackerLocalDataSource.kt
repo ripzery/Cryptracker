@@ -1,5 +1,8 @@
 package com.ripzery.cryptracker.repository.local
 
+import android.util.Log
+import com.ripzery.cryptracker.data.CoinMarketCapResult
+import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
@@ -14,6 +17,12 @@ import io.reactivex.schedulers.Schedulers
  */
 object CryptrackerLocalDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair(CurrencyConstants.USD, CurrencyConstants.THB)
+
+    override fun fetchPriceAndSave(intervalInSecond: Long): Observable<List<Pair<PairedCurrency, CoinMarketCapResult>>>? {
+        Log.d("Local", "Hey, I can\'t do that!!")
+        return null
+    }
+
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val lastSeen = DbHelper.db.lastSeen()
         val lastSeenObservable = Observable.just(lastSeen.getPrice(cryptoCurrency))

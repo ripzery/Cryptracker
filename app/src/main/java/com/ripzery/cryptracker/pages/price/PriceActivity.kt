@@ -1,6 +1,7 @@
 package com.ripzery.cryptracker.pages.price
 
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -19,6 +21,8 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.ripzery.cryptracker.R
+import com.ripzery.cryptracker.data.CoinMarketCapResult
+import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.pages.price.cryptocurrency.CryptocurrencyFragment
 import com.ripzery.cryptracker.pages.setting.PreferenceActivity
@@ -39,7 +43,6 @@ class PriceActivity : AppCompatActivity() {
         setContentView(R.layout.activity_price)
 
         mViewModel.init(savedInstanceState)
-        mViewModel.getCryptocurrencyList().observe(this, mCryptoListObserver)
         initInstance()
     }
 
@@ -50,6 +53,11 @@ class PriceActivity : AppCompatActivity() {
         mPagerAdapter.notifyDataSetChanged()
         handleTabLayoutMode(mCryptocurrencyList.size)
     }
+
+    private val mAllCurrencyLiveData = Observer<MutableList<Pair<PairedCurrency, CoinMarketCapResult>>> {
+        Log.d("PriceActivity", "Price has been updated")
+    }
+
 
     private fun initInstance() {
         lifecycle.addObserver(mViewModel)
@@ -71,6 +79,12 @@ class PriceActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putStringArrayList(SAVED_STATE_CRYPTO_LIST, ArrayList(mCryptocurrencyList))
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mViewModel.getCryptocurrencyList().observe(this, mCryptoListObserver)
+        mViewModel.polling().observe(this, mAllCurrencyLiveData)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

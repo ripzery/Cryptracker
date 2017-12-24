@@ -1,10 +1,12 @@
 package com.ripzery.cryptracker.pages.price.cryptocurrency
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.repository.CryptrackerRepository
+import com.ripzery.cryptracker.utils.DbHelper
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -13,7 +15,6 @@ import io.reactivex.disposables.CompositeDisposable
 class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepository) : ViewModel() {
     private val mHandleAPIError: (Throwable) -> Unit = { error -> Log.d("Error", error.message) }
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
-    private val mLiveData: MutableLiveData<LastSeenPrice> = MutableLiveData()
     private lateinit var mCryptocurrency: String
     private val INTERVAL_IN_SECOND = 10L
 
@@ -21,11 +22,8 @@ class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepo
         this.mCryptocurrency = cryptocurrency
     }
 
-    fun pollingPrice(cryptocurrency: String): MutableLiveData<LastSeenPrice> {
-        val d = cryptrackerRepository.updatePriceWithInterval(cryptocurrency, INTERVAL_IN_SECOND)
-                .subscribe({ mLiveData.postValue(it) }, mHandleAPIError)
-        mDisposableList.add(d)
-        return mLiveData
+    fun pollingPrice(cryptocurrency: String): LiveData<LastSeenPrice> {
+        return DbHelper.db.lastSeen().getPriceSync(cryptocurrency)
     }
 
     override fun onCleared() {

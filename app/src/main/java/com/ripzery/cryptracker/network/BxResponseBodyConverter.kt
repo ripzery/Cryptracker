@@ -18,17 +18,22 @@ import java.io.InputStreamReader
 
 class BxResponseBodyConverter<T>(private val gson: Gson, private val adapter: TypeAdapter<T>) : Converter<ResponseBody, T> {
 
-    override fun convert(value: ResponseBody): T {
-        var responseData = value.string()
-        responseData = responseData.replaceFirst("{", "[")
-        val lastIndex = responseData.indexOfLast { '}' == it }
-        responseData = responseData.replaceRange(lastIndex, lastIndex + 1, "]")
-        responseData = responseData.replace(Regex("\"[0-9]+\":"), "")
-        Log.d("BxResponse", responseData)
-        val reader = InputStreamReader(ByteArrayInputStream(responseData.toByteArray()))
-        val jsonReader = gson.newJsonReader(reader)
-        jsonReader.use { _ ->
-            return adapter.read(jsonReader)
+    override fun convert(value: ResponseBody): T? {
+        try {
+            var responseData = value.string()
+            responseData = responseData.replaceFirst("{", "[")
+            val lastIndex = responseData.indexOfLast { '}' == it }
+            responseData = responseData.replaceRange(lastIndex, lastIndex + 1, "]")
+            responseData = responseData.replace(Regex("\"[0-9]+\":"), "")
+            Log.d("BxResponse", responseData)
+            val reader = InputStreamReader(ByteArrayInputStream(responseData.toByteArray()))
+            val jsonReader = gson.newJsonReader(reader)
+            jsonReader.use { _ ->
+                return adapter.read(jsonReader)
+            }
+        } catch (e: Exception) {
+            Log.d("Some exception", e.message)
+            return null
         }
     }
 

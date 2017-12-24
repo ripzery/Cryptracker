@@ -1,7 +1,7 @@
 package com.ripzery.cryptracker.repository.remote
 
+import android.util.Log
 import com.ripzery.cryptracker.data.CoinMarketCapResult
-import com.ripzery.cryptracker.data.DynamicBxPrice
 import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.extensions.applyCurrency
@@ -29,6 +29,7 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                     val chosenPrice = bx.first { cryptoCurrency == it.secondaryCurrency }
                     val lastSeenPrice = LastSeenPrice(chosenPrice.pairingId, chosenPrice.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
                     DbHelper.db.lastSeen().insert(lastSeenPrice)
+                    Log.d("Result", "Fetching")
                     lastSeenPrice
 //                    val lastSeenPrice = when (cryptoCurrency) {
 //                        CurrencyConstants.EVX_FULL_NAME -> {

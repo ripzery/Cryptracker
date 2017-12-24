@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class PriceActivity : AppCompatActivity() {
 
-    private var mCryptocurrencyList: MutableList<String> = mutableListOf("omisego", "everex", "ethereum", "bitcoin")
+    private var mCryptocurrencyList: MutableList<String> = mutableListOf("OMG", "EVX", "ETH", "BTC")
     private val mViewModel by lazy { getViewModel(PriceViewModel::class.java) }
     private val mPagerAdapter: PricePagerAdapter by lazy { PricePagerAdapter(mCryptocurrencyList, fm = supportFragmentManager) }
     private val MAX_ITEMS_TAB_LAYOUT_FIXED = 4

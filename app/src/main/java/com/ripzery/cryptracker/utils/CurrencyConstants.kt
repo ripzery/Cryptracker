@@ -9,6 +9,12 @@ object CurrencyConstants {
     val BTC_FULL_NAME = "bitcoin"
     val ETH_FULL_NAME = "ethereum"
 
+    val OMG_SHORT_NAME = "OMG"
+    val EVX_SHORT_NAME = "EVX"
+    val BTC_SHORT_NAME = "BTC"
+    val ETH_SHORT_NAME = "ETH"
+
+
     val OMG_ID = 26
     val EVX_ID = 28
     val BTC_ID = 1

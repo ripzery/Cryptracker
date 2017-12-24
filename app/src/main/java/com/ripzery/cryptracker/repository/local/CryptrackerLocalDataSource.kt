@@ -17,10 +17,10 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val lastSeen = DbHelper.db.lastSeen()
         val lastSeenObservable = when (cryptoCurrency) {
-            CurrencyConstants.OMG_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.OMG_ID))
-            CurrencyConstants.EVX_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.EVX_ID))
-            CurrencyConstants.ETH_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.ETH_ID))
-            CurrencyConstants.BTC_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.BTC_ID))
+            CurrencyConstants.OMG_SHORT_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.OMG_ID))
+            CurrencyConstants.EVX_SHORT_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.EVX_ID))
+            CurrencyConstants.ETH_SHORT_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.ETH_ID))
+            CurrencyConstants.BTC_SHORT_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.BTC_ID))
             else -> Observable.just(LastSeenPrice())
         }
         return lastSeenObservable.map { it.applyCurrency(mCurrency) }

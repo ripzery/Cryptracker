@@ -30,18 +30,39 @@
         <item>everex</item>
         <item>ethereum</item>
         <item>bitcoin</item>
+        <item>bitcoincash</item>
+        <item>dash</item>
+        <item>gnosis</item>
+        <item>litecoin</item>
+        <item>augur</item>
+        <item>ripple</item>
+        <item>zcoin</item>
     </string-array>
     <string-array name="cryptocurrency_entries">
         <item>OmiseGo</item>
         <item>Everex</item>
         <item>Ethereum</item>
         <item>Bitcoin</item>
+        <item>Bitcoin Cash</item>
+        <item>Dash</item>
+        <item>Gnosis</item>
+        <item>Litecoin</item>
+        <item>Augur</item>
+        <item>Ripple</item>
+        <item>Zcoin</item>
     </string-array>
     <string-array name="cryptocurrency_values">
         <item>omisego</item>
         <item>everex</item>
         <item>ethereum</item>
         <item>bitcoin</item>
+        <item>bitcoincash</item>
+        <item>dash</item>
+        <item>gnosis</item>
+        <item>litecoin</item>
+        <item>augur</item>
+        <item>ripple</item>
+        <item>zcoin</item>
     </string-array>
     <string-array name="setting_currency_entries">
         <item>USD</item>

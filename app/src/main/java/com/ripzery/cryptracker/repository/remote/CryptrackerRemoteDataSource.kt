@@ -9,6 +9,7 @@ import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.network.NetworkProvider
 import com.ripzery.cryptracker.repository.CryptrackerDataSource
 import com.ripzery.cryptracker.utils.CurrencyConstants
+import com.ripzery.cryptracker.utils.CurrencyFullnameHelper
 import com.ripzery.cryptracker.utils.DbHelper
 import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import io.reactivex.Observable
@@ -23,31 +24,13 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair(CurrencyConstants.USD, CurrencyConstants.THB)
 
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
-        val getAllPrice = Observable.zip(NetworkProvider.apiCoinMarketCap.getPrice(cryptoCurrency), NetworkProvider.apiBx.getPriceList(),
+        val getAllPrice = Observable.zip(NetworkProvider.apiCoinMarketCap.getPrice(), NetworkProvider.apiBx.getPriceList(),
                 BiFunction<List<CoinMarketCapResult>, List<PairedCurrency>, LastSeenPrice> { cmc, bx ->
-                    val cmcPrice = cmc[0].price.toDouble()
-                    val chosenPrice = bx.first { cryptoCurrency == it.secondaryCurrency }
-                    val lastSeenPrice = LastSeenPrice(chosenPrice.pairingId, chosenPrice.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
+                    val bxchosenPrice = bx.first { cryptoCurrency == it.secondaryCurrency }
+                    val cmcChosenPrice = cmc.first { it.symbol.contains(cryptoCurrency) }.price.toDouble()
+                    val lastSeenPrice = LastSeenPrice(bxchosenPrice.secondaryCurrency, bxchosenPrice.lastPrice.to2Precision().toDouble(), cmcChosenPrice.to2Precision().toDouble(), Date())
                     DbHelper.db.lastSeen().insert(lastSeenPrice)
-                    Log.d("Result", "Fetching")
                     lastSeenPrice
-//                    val lastSeenPrice = when (cryptoCurrency) {
-//                        CurrencyConstants.EVX_FULL_NAME -> {
-//                            LastSeenPrice(bx.evx.pairingId, bx.evx.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
-//                        }
-//                        CurrencyConstants.OMG_FULL_NAME -> {
-//                            LastSeenPrice(bx.omg.pairingId, bx.omg.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
-//                        }
-//                        CurrencyConstants.ETH_FULL_NAME -> {
-//                            LastSeenPrice(bx.eth.pairingId, bx.eth.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
-//                        }
-//                        CurrencyConstants.BTC_FULL_NAME -> {
-//                            LastSeenPrice(bx.btc.pairingId, bx.btc.lastPrice.to2Precision().toDouble(), cmcPrice.to2Precision().toDouble(), Date())
-//                        }
-//                        else -> LastSeenPrice()
-//                    }
-//                    DbHelper.db.lastSeen().insert(lastSeenPrice)
-//                    lastSeenPrice
                 })
 
         return getAllPrice

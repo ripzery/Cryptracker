@@ -15,7 +15,7 @@ class CryptocurrencyViewModel(private val cryptrackerRepository: CryptrackerRepo
     private val mDisposableList: CompositeDisposable = CompositeDisposable()
     private val mLiveData: MutableLiveData<LastSeenPrice> = MutableLiveData()
     private lateinit var mCryptocurrency: String
-    private val INTERVAL_IN_SECOND = 100L
+    private val INTERVAL_IN_SECOND = 10L
 
     fun init(cryptocurrency: String) {
         this.mCryptocurrency = cryptocurrency

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.extensions.to2Precision
+import com.ripzery.cryptracker.utils.CurrencyFullnameHelper
 import com.ripzery.cryptracker.utils.SpringHelper
 import kotlinx.android.synthetic.main.fragment_price.*
 
@@ -59,8 +61,9 @@ class CryptocurrencyFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mSpringHelper = SpringHelper(tvBx, tvCoinMarketCap)
+        Log.d("currency", CurrencyFullnameHelper.fullToShort(mCryptocurrency))
 
-        mViewModel.pollingPrice(mCryptocurrency).observe(this, mObservePriceChanged)
+        mViewModel.pollingPrice(CurrencyFullnameHelper.fullToShort(mCryptocurrency)).observe(this, mObservePriceChanged)
     }
 
     /** Method zone **/

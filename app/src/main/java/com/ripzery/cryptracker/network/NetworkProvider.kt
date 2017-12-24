@@ -16,7 +16,7 @@ object NetworkProvider {
 
     val apiBx: BxApiService by lazy {
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = HttpLoggingInterceptor.Level.BASIC
         val client = OkHttpClient.Builder().addInterceptor(logging).build()
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

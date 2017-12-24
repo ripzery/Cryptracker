@@ -25,7 +25,6 @@ class BxResponseBodyConverter<T>(private val gson: Gson, private val adapter: Ty
             val lastIndex = responseData.indexOfLast { '}' == it }
             responseData = responseData.replaceRange(lastIndex, lastIndex + 1, "]")
             responseData = responseData.replace(Regex("\"[0-9]+\":"), "")
-            Log.d("BxResponse", responseData)
             val reader = InputStreamReader(ByteArrayInputStream(responseData.toByteArray()))
             val jsonReader = gson.newJsonReader(reader)
             jsonReader.use { _ ->

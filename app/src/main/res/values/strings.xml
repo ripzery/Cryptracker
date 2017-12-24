@@ -30,13 +30,6 @@
         <item>everex</item>
         <item>ethereum</item>
         <item>bitcoin</item>
-        <item>bitcoincash</item>
-        <item>dash</item>
-        <item>gnosis</item>
-        <item>litecoin</item>
-        <item>augur</item>
-        <item>ripple</item>
-        <item>zcoin</item>
     </string-array>
     <string-array name="cryptocurrency_entries">
         <item>OmiseGo</item>

@@ -16,13 +16,7 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
     private var mCurrency: Pair<String, String> = Pair(CurrencyConstants.USD, CurrencyConstants.THB)
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         val lastSeen = DbHelper.db.lastSeen()
-        val lastSeenObservable = when (cryptoCurrency) {
-            CurrencyConstants.OMG_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.OMG_ID))
-            CurrencyConstants.EVX_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.EVX_ID))
-            CurrencyConstants.ETH_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.ETH_ID))
-            CurrencyConstants.BTC_FULL_NAME -> Observable.just(lastSeen.getPrice(CurrencyConstants.BTC_ID))
-            else -> Observable.just(LastSeenPrice())
-        }
+        val lastSeenObservable = Observable.just(lastSeen.getPrice(cryptoCurrency))
         return lastSeenObservable.map { it.applyCurrency(mCurrency) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

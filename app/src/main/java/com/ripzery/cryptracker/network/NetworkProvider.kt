@@ -1,5 +1,6 @@
 package com.ripzery.cryptracker.network
 
+import co.omisego.omgshop.deserialize.BxConverterFactory
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,7 +20,7 @@ object NetworkProvider {
         val client = OkHttpClient.Builder().addInterceptor(logging).build()
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(BxConverterFactory.create())
                 .client(client)
                 .baseUrl(BASE_URL_BX)
                 .build().create(BxApiService::class.java)

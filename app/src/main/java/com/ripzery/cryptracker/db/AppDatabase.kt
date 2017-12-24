@@ -11,7 +11,7 @@ import java.util.*
  * Created by ripzery on 10/30/17.
  */
 
-@Database(entities = arrayOf(LastSeenPrice::class), version = 2)
+@Database(entities = arrayOf(LastSeenPrice::class), version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun lastSeen(): LastSeenPriceDao
 

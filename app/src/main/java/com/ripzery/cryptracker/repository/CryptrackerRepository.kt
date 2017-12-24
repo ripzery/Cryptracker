@@ -13,7 +13,6 @@ class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerD
     override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
         return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
                 .flatMap { cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
-                .retry()
     }
 
     override fun getCryptoList(): List<String> = cryptrackerLocalDataSource.getCryptoList()

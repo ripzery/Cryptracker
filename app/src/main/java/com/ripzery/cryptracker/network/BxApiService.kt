@@ -1,6 +1,8 @@
 package com.ripzery.cryptracker.network
 
 import com.ripzery.cryptracker.data.BxPrice
+import com.ripzery.cryptracker.data.DynamicBxPrice
+import com.ripzery.cryptracker.data.PairedCurrency
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -9,5 +11,5 @@ import retrofit2.http.GET
  */
 interface BxApiService {
     @GET(".")
-    fun getPriceList(): Observable<BxPrice>
+    fun getPriceList(): Observable<List<PairedCurrency>>
 }

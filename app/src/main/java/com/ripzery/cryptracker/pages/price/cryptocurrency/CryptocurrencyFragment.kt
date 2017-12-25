@@ -78,8 +78,8 @@ class CryptocurrencyFragment : Fragment() {
         tvBx.scaleX = 0.8f
         tvBx.scaleY = 0.8f
         tvCoinMarketCap.translationY = -100f
-        tvCoinMarketCap.text = it!!.cmcPrice.to2Precision()
-        tvBx.text = it.bxPrice.to2Precision()
+        tvCoinMarketCap.text = it?.cmcPrice?.to2Precision() ?: "..."
+        tvBx.text = it?.bxPrice?.to2Precision() ?: "..."
         mSpringHelper.start()
     }
 }

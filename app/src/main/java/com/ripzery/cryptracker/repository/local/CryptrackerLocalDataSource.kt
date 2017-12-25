@@ -22,15 +22,6 @@ object CryptrackerLocalDataSource : CryptrackerDataSource {
         Log.d("Local", "Hey, I can\'t do that!!")
         return null
     }
-
-    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
-        val lastSeen = DbHelper.db.lastSeen()
-        val lastSeenObservable = Observable.just(lastSeen.getPrice(cryptoCurrency))
-        return lastSeenObservable.map { it.applyCurrency(mCurrency) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-    }
-
     override fun getCryptoList(): List<String> = SharePreferenceHelper.readCryptocurrencySetting().toList()
     override fun loadCurrency(): Pair<String, String> {
         mCurrency = Pair(SharePreferenceHelper.readCurrencyTop(), SharePreferenceHelper.readCurrencyBottom())

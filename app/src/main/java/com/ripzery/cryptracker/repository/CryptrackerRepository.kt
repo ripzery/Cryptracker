@@ -12,10 +12,6 @@ import java.util.concurrent.TimeUnit
 class CryptrackerRepository(private val cryptrackerLocalDataSource: CryptrackerDataSource,
                             private val cryptrackerRemoteDataSource: CryptrackerDataSource) : CryptrackerDataSource {
 
-    override fun updatePriceWithInterval(cryptoCurrency: String, intervalInSecond: Long): Observable<LastSeenPrice> {
-        return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)
-                .flatMap { cryptrackerRemoteDataSource.updatePriceWithInterval(cryptoCurrency, intervalInSecond) }
-    }
 
     override fun fetchPriceAndSave(intervalInSecond: Long): Observable<List<Pair<PairedCurrency, CoinMarketCapResult>>>? {
         return Observable.interval(0, intervalInSecond, TimeUnit.SECONDS)

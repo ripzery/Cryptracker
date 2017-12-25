@@ -55,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val colorForSmallIcon = ContextCompat.getColor(applicationContext, if (data["type"] == "up") R.color.colorPriceUp else R.color.colorPriceDown)
 
         val currentPriceText = when {
-            currency != null && getPriceCurrency(currency) != null -> "Your last seen price is ${getPriceCurrency(currency)}"
+            currency != null && getPriceCurrency(currency.toUpperCase()) != null -> "Your last seen price is ${getPriceCurrency(currency.toUpperCase())}"
             else -> ""
         }
 

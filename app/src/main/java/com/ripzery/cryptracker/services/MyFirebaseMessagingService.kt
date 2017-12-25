@@ -86,12 +86,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun getPriceCurrency(currency: String): String? {
-        return DbHelper.db.lastSeen().getPrice(currency)?.bxPrice?.to2Precision()
+        return DbHelper.db.lastSeen().getPrice(currency.toUpperCase())?.bxPrice?.to2Precision()
     }
 
     private fun writePriceCurrency(currency: String?, price: Double?) {
         if (price != null && currency != null) {
-            DbHelper.db.lastSeen().update(currency, price)
+            DbHelper.db.lastSeen().update(currency.toUpperCase(), price)
         }
     }
 }

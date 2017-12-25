@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.ripzery.cryptracker.R
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
+import com.ripzery.cryptracker.extensions.applyCurrency
 import com.ripzery.cryptracker.extensions.getViewModel
 import com.ripzery.cryptracker.extensions.to2Precision
 import com.ripzery.cryptracker.utils.CurrencyFullnameHelper
+import com.ripzery.cryptracker.utils.SharePreferenceHelper
 import com.ripzery.cryptracker.utils.SpringHelper
 import kotlinx.android.synthetic.main.fragment_price.*
 
@@ -75,10 +77,11 @@ class CryptocurrencyFragment : Fragment() {
     }
 
     private var mObservePriceChanged: Observer<LastSeenPrice> = Observer {
+        val price = it?.applyCurrency(SharePreferenceHelper.readCurrencyTop() to SharePreferenceHelper.readCurrencyBottom())
         tvBx.scaleX = 0.8f
         tvBx.scaleY = 0.8f
         tvCoinMarketCap.translationY = -100f
-        tvCoinMarketCap.text = it?.cmcPrice?.to2Precision() ?: "..."
+        tvCoinMarketCap.text = price?.cmcPrice?.to2Precision() ?: "..."
         tvBx.text = it?.bxPrice?.to2Precision() ?: "..."
         mSpringHelper.start()
     }

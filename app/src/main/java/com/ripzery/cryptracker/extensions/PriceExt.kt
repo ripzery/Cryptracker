@@ -5,7 +5,7 @@ import com.ripzery.cryptracker.db.entities.LastSeenPrice
 /**
  * Created by ripzery on 10/23/17.
  */
-private val USD_TO_THB = 33.23
+private val USD_TO_THB = 32.75
 private val THB_TO_USD = 0.03
 
 fun Double.to2Precision(): String {

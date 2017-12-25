@@ -7,6 +7,7 @@ import android.util.Log
 import com.ripzery.cryptracker.db.entities.LastSeenPrice
 import com.ripzery.cryptracker.repository.CryptrackerRepository
 import com.ripzery.cryptracker.utils.DbHelper
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 
 /**

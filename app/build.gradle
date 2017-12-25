@@ -32,7 +32,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode getVersionCode()
-        versionName "1.4"
+        versionName "2.0"
         testInstrumentationRunner "com.ripzery.cryptracker.CustomJunitRunner"
     }
     buildTypes {

@@ -28,7 +28,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d("MyMessagingService", message.from)
 
         // Do not show notification if user disable it
-        Log.d("Test", "${SharePreferenceHelper.readShowNotification()}")
         if (!SharePreferenceHelper.readShowNotification()) return
 
         val data = message.data

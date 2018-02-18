@@ -40,6 +40,7 @@
         <item>Dash</item>
         <item>Gnosis</item>
         <item>Litecoin</item>
+        <item>Power Ledger</item>
         <item>Augur</item>
         <item>Ripple</item>
         <item>Zcoin</item>
@@ -54,6 +55,7 @@
         <item>gnosis</item>
         <item>litecoin</item>
         <item>augur</item>
+        <item>powerledger</item>
         <item>ripple</item>
         <item>zcoin</item>
     </string-array>

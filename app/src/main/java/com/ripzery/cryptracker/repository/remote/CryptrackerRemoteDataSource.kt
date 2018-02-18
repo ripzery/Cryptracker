@@ -27,7 +27,7 @@ object CryptrackerRemoteDataSource : CryptrackerDataSource {
                 BiFunction<List<CoinMarketCapResult>, List<PairedCurrency>, List<Pair<PairedCurrency, CoinMarketCapResult>>> { cmc, bx ->
                     val bxTHBList = bx.filter { it.primaryCurrency == "THB" }.map { it.secondaryCurrency }
                     val bxPriceList = bx.filter { it.primaryCurrency == "THB" }
-                    val cmcPriceList = cmc.filter { it.id != "das" && bxTHBList.contains(it.symbol) || it.id == "dash" }
+                    val cmcPriceList = cmc.filter { it.id != "das" && bxTHBList.contains(it.symbol) || it.id == "dash" || it.id == "power-ledger" }
                     val mappedPrice = bxPriceList.map {
                         Pair(
                                 it,

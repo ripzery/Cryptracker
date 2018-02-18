@@ -3,6 +3,7 @@ package com.ripzery.cryptracker.pages.price
 import android.arch.lifecycle.*
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.crash.FirebaseCrash
 import com.ripzery.cryptracker.data.CoinMarketCapResult
 import com.ripzery.cryptracker.data.PairedCurrency
 import com.ripzery.cryptracker.repository.CryptrackerRepository
@@ -37,6 +38,7 @@ class PriceViewModel(private val cryptrackerRepository: CryptrackerRepository) :
             mAllCurrencyLiveData.value = it.toMutableList()
         }, {
             Log.w("Error", it.message)
+            FirebaseCrash.report(it)
         })
 
         if (d != null)

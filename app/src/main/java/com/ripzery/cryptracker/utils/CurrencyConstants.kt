@@ -13,6 +13,7 @@ object CurrencyConstants {
     val GNO_FULL_NAME = "gnosis"
     val LTC_FULL_NAME = "litecoin"
     val REP_FULL_NAME = "augur"
+    val POW_FULL_NAME = "powerledger"
     val XRP_FULL_NAME = "ripple"
     val XZC_FULL_NAME = "zcoin"
 
@@ -25,13 +26,9 @@ object CurrencyConstants {
     val GNO_SHORT_NAME = "GNO"
     val LTC_SHORT_NAME = "LTC"
     val REP_SHORT_NAME = "REP"
+    val POW_SHORT_NAME = "POW"
     val XRP_SHORT_NAME = "XRP"
     val XZC_SHORT_NAME = "XZC"
-
-    val OMG_ID = 26
-    val EVX_ID = 28
-    val BTC_ID = 1
-    val ETH_ID = 21
 
     val USD = "usd"
     val THB = "thb"

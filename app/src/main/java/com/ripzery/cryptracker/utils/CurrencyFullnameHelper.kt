@@ -19,6 +19,7 @@ object CurrencyFullnameHelper {
         CurrencyConstants.GNO_SHORT_NAME.toLowerCase(), CurrencyConstants.GNO_SHORT_NAME -> CurrencyConstants.GNO_FULL_NAME
         CurrencyConstants.LTC_SHORT_NAME.toLowerCase(), CurrencyConstants.LTC_SHORT_NAME -> CurrencyConstants.LTC_FULL_NAME
         CurrencyConstants.REP_SHORT_NAME.toLowerCase(), CurrencyConstants.REP_SHORT_NAME -> CurrencyConstants.REP_FULL_NAME
+        CurrencyConstants.POW_SHORT_NAME.toLowerCase(), CurrencyConstants.POW_SHORT_NAME -> CurrencyConstants.POW_FULL_NAME
         CurrencyConstants.XRP_SHORT_NAME.toLowerCase(), CurrencyConstants.XRP_SHORT_NAME -> CurrencyConstants.XRP_FULL_NAME
         CurrencyConstants.XZC_SHORT_NAME.toLowerCase(), CurrencyConstants.XZC_SHORT_NAME -> CurrencyConstants.XZC_FULL_NAME
         else -> throw UnsupportedOperationException("Currency doesn't exist!")
@@ -34,6 +35,7 @@ object CurrencyFullnameHelper {
         CurrencyConstants.GNO_FULL_NAME, CurrencyConstants.GNO_FULL_NAME.toUpperCase() -> CurrencyConstants.GNO_SHORT_NAME
         CurrencyConstants.LTC_FULL_NAME, CurrencyConstants.LTC_FULL_NAME.toUpperCase() -> CurrencyConstants.LTC_SHORT_NAME
         CurrencyConstants.REP_FULL_NAME, CurrencyConstants.REP_FULL_NAME.toUpperCase() -> CurrencyConstants.REP_SHORT_NAME
+        CurrencyConstants.POW_FULL_NAME, CurrencyConstants.POW_FULL_NAME.toUpperCase() -> CurrencyConstants.POW_SHORT_NAME
         CurrencyConstants.XRP_FULL_NAME, CurrencyConstants.XRP_FULL_NAME.toUpperCase() -> CurrencyConstants.XRP_SHORT_NAME
         CurrencyConstants.XZC_FULL_NAME, CurrencyConstants.XZC_FULL_NAME.toUpperCase() -> CurrencyConstants.XZC_SHORT_NAME
         else -> throw UnsupportedOperationException("Currency doesn't exist!")
